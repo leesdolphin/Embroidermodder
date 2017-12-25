@@ -107,7 +107,7 @@ SOURCES += \
 ../libembroidery/format-shv.c \
 ../libembroidery/format-sst.c \
 ../libembroidery/format-stx.c \
-../libembroidery/format-svg.c \
+../libembroidery/format-svg-cairo.c \
 ../libembroidery/format-t01.c \
 ../libembroidery/format-t09.c \
 ../libembroidery/format-tap.c \
@@ -232,3 +232,7 @@ SOURCES += \
 HEADERS += \
 ../libembroidery/geom-arc.h \
 ../libembroidery/geom-line.h \
+
+# TODO: Find a better way to use NanoSVG
+HEADERS += \
+../libembroidery/libraries/nanosvg.h \
