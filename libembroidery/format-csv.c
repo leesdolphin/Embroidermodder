@@ -334,7 +334,7 @@ int writeCsv(EmbPattern* pattern, const char* fileName)
     while(sList)
     {
         EmbStitch s = sList->stitch;
-        embFile_printf(file, "\"*\",\"%s\",\"%f\",\"%f\"\n", csvStitchFlagToStr(s.flags), s.xx, s.yy);
+        embFile_printf(file, "\"*\",\"%s\",\"%.4f\",\"%.4f\"\n", csvStitchFlagToStr(s.flags), s.xx, s.yy);
         sList = sList->next;
     }
 
