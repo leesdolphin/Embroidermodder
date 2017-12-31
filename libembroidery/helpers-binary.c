@@ -12,6 +12,7 @@ int binaryReadBytes(EmbFile* file, unsigned char* destination, int count)
 
 short binaryReadInt16(EmbFile* file)
 {
+    /* Little-edian */
     int x = embFile_getc(file);
     x = x | embFile_getc(file) << 8;
     return (short)x;
@@ -19,6 +20,7 @@ short binaryReadInt16(EmbFile* file)
 
 int binaryReadInt32(EmbFile* file)
 {
+    /* Little-edian */
     int x = embFile_getc(file);
     x = x | embFile_getc(file) << 8;
     x = x | embFile_getc(file) << 16;
@@ -38,6 +40,7 @@ unsigned short binaryReadUInt16(EmbFile* file)
 
 unsigned int binaryReadUInt32(EmbFile* file)
 {
+    /* Little-edian */
     unsigned int x = embFile_getc(file);
     x = x | embFile_getc(file) << 8;
     x = x | embFile_getc(file) << 16;

@@ -17,7 +17,9 @@ int readTxt(EmbPattern* pattern, const char* fileName)
 int writeTxt(EmbPattern* pattern, const char* fileName)
 {
     EmbStitchList* pointer = 0;
-    EmbFile* file = 0;
+    EmbFile *file = 0;
+    char tmpX[32];
+    char tmpY[32];
 
     if(!pattern) { embLog_error("format-txt.c writeTxt(), pattern argument is null\n"); return 0; }
     if(!fileName) { embLog_error("format-txt.c writeTxt(), fileName argument is null\n"); return 0; }
@@ -44,7 +46,7 @@ int writeTxt(EmbPattern* pattern, const char* fileName)
     while(pointer)
     {
         EmbStitch s = pointer->stitch;
-        embFile_printf(file, "%.1f,%.1f color:%i flags:%i\n", s.xx, s.yy, s.color, s.flags);
+        embFile_printf(file, "%s,%s color:%i flags:%i\n", emb_optOut1d(s.xx, tmpX), emb_optOut1d(s.yy, tmpY), s.color, s.flags);
         pointer = pointer->next;
     }
 

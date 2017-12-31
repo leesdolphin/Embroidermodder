@@ -325,7 +325,7 @@ void svgAddToPattern(EmbPattern* p)
         pathbuff = (char*)malloc(size);
         if(!pathbuff) { embLog_error("format-svg.c svgAddToPattern(), cannot allocate memory for pathbuff\n"); return; }
 
-        printf("stroke:%s\n", mystrok);
+        /* printf("stroke:%s\n", mystrok) */
 
         /* M44.219,26.365c0,10.306-8.354,18.659-18.652,18.659c-10.299,0-18.663-8.354-18.663-18.659c0-10.305,8.354-18.659,18.659-18.659C35.867,7.707,44.219,16.06,44.219,26.365z */
         for(i = 0; i < last; i++)
@@ -354,7 +354,7 @@ void svgAddToPattern(EmbPattern* p)
                     if(pos > 0) {         /* append float to array, if it not yet stored */
                         pathbuff[pos] = 0;
                         pos = 0;
-                        printf("    ,val:%s\n", pathbuff);
+                        /* printf("    ,val:%s\n", pathbuff) */
                         pathData[++trip] = atof(pathbuff);
                     }
                     break;
@@ -364,7 +364,7 @@ void svgAddToPattern(EmbPattern* p)
                     if(pos > 0) {         /* append float to array, if it not yet stored */
                         pathbuff[pos] = 0;
                         pos = 0;
-                        printf("    -val:%s\n", pathbuff);
+                        /* printf("    -val:%s\n", pathbuff) */
                         pathData[++trip] = atof(pathbuff);
                     }
                     pathbuff[pos++] = (char)c;                  /* add a more char */
@@ -377,7 +377,7 @@ void svgAddToPattern(EmbPattern* p)
                     if(pos > 0) {         /* just make sure: append float to array, if it not yet stored */
                         pathbuff[pos] = 0;
                         pos = 0;
-                        printf("    >val:%s\n", pathbuff);
+                        /* printf("    >val:%s\n", pathbuff) */
                         pathData[++trip] = atof(pathbuff);
                     }
 
@@ -457,7 +457,7 @@ void svgAddToPattern(EmbPattern* p)
                         pathbuff[0] = (char)c;                  /* set the command for compare */
                         pathbuff[1] = 0;
 
-                        printf("cmd:%s\n", pathbuff);
+                        /* printf("cmd:%s\n", pathbuff) */
                         if     (!strcmp(pathbuff, "M")) { cmd = 'M'; reset = 2; numMoves++; }
                         else if(!strcmp(pathbuff, "m")) { cmd = 'm'; reset = 2; numMoves++; }
                         else if(!strcmp(pathbuff, "L")) { cmd = 'L'; reset = 2; }
@@ -2942,7 +2942,7 @@ void svgProcess(int c, const char* buff)
 
         advance = (char)svgIsElement(buff);
 
-        if(advance) { printf("ELEMENT:\n"); svgExpect = SVG_EXPECT_ATTRIBUTE; currentElement = svgElement_create(buff); }
+        if(advance) { /* printf("ELEMENT:\n"); */ svgExpect = SVG_EXPECT_ATTRIBUTE; currentElement = svgElement_create(buff) }
         else        { return; }
     }
     else if(svgExpect == SVG_EXPECT_ATTRIBUTE)
@@ -3175,7 +3175,7 @@ void svgProcess(int c, const char* buff)
 
         if(advance)
         {
-            printf("ATTRIBUTE:\n");
+            /* printf("ATTRIBUTE:\n") */
             svgExpect = SVG_EXPECT_VALUE;
             free(currentAttribute);
             currentAttribute = 0;
@@ -3185,7 +3185,7 @@ void svgProcess(int c, const char* buff)
     else if(svgExpect == SVG_EXPECT_VALUE)
     {
         int last = strlen(buff) - 1;
-        printf("VALUE:\n");
+        /* printf("VALUE:\n") */
 
         /* single-value */
         if((buff[0] == '"' || buff[0] == '\'') && (buff[last] == '/' || buff[last] == '"' || buff[last] == '\'') && !svgMultiValue)
@@ -3229,7 +3229,7 @@ void svgProcess(int c, const char* buff)
     }
 
     if(svgExpect != SVG_EXPECT_NULL)
-        printf("%s\n", buff);
+        /* printf("%s\n", buff) */
 
     if(c == '>')
         svgExpect = SVG_EXPECT_NULL;
@@ -3326,54 +3326,54 @@ int readSvg(EmbPattern* pattern, const char* fileName)
     currentValue = 0;
 
     /*TODO: remove this summary after testing is complete */
-    printf("OBJECT SUMMARY:\n");
+    /* printf("OBJECT SUMMARY:\n") */
     cList = pattern->circleObjList;
     while(cList)
     {
         EmbCircle c = cList->circleObj.circle;
-        printf("circle %f %f %f\n", c.centerX, c.centerY, c.radius);
+        /* printf("circle %f %f %f\n", c.centerX, c.centerY, c.radius) */
         cList = cList->next;
     }
     eList = pattern->ellipseObjList;
     while(eList)
     {
         EmbEllipse e = eList->ellipseObj.ellipse;
-        printf("ellipse %f %f %f %f\n", embEllipse_centerX(e), embEllipse_centerY(e), embEllipse_radiusX(e), embEllipse_radiusY(e));
+        /* printf("ellipse %f %f %f %f\n", embEllipse_centerX(e), embEllipse_centerY(e), embEllipse_radiusX(e), embEllipse_radiusY(e)) */
         eList = eList->next;
     }
     liList = pattern->lineObjList;
     while(liList)
     {
         EmbLine li = liList->lineObj.line;
-        printf("line %f %f %f %f\n", embLine_x1(li), embLine_y1(li), embLine_x2(li), embLine_y2(li));
+        /* printf("line %f %f %f %f\n", embLine_x1(li), embLine_y1(li), embLine_x2(li), embLine_y2(li)) */
         liList = liList->next;
     }
     poList = pattern->pointObjList;
     while(poList)
     {
         EmbPoint po = poList->pointObj.point;
-        printf("point %f %f\n", embPoint_x(po), embPoint_y(po));
+        /* printf("point %f %f\n", embPoint_x(po), embPoint_y(po)) */
         poList = poList->next;
     }
     pogList = pattern->polygonObjList;
     while(pogList)
     {
         int vertices = embPointList_count(pogList->polygonObj->pointList);
-        printf("polygon %d\n", vertices);
+        /* printf("polygon %d\n", vertices) */
         pogList = pogList->next;
     }
     polList = pattern->polylineObjList;
     while(polList)
     {
         int vertices = embPointList_count(polList->polylineObj->pointList);
-        printf("polyline %d\n", vertices);
+        /* printf("polyline %d\n", vertices) */
         polList = polList->next;
     }
     rList = pattern->rectObjList;
     while(rList)
     {
         EmbRect r = rList->rectObj.rect;
-        printf("rect %f %f %f %f\n", embRect_x(r), embRect_y(r), embRect_width(r), embRect_height(r));
+        /* printf("rect %f %f %f %f\n", embRect_x(r), embRect_y(r), embRect_width(r), embRect_height(r)) */
         rList = rList->next;
     }
 

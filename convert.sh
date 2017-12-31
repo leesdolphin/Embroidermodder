@@ -65,7 +65,7 @@ main() {
 
     for FMT in "${FORMATS[@]}"; do
         if [ -f "${CONV_DIR}/${FNAME}-${FMT}.txt" ]; then
-            diff "${CONV_DIR}/${FNAME}-original.txt" "${CONV_DIR}/${FNAME}-${FMT}.txt" > "${CONV_DIR}/${FNAME}-${FMT}.diff" || true
+            diff --report-identical-files --side-by-side --ignore-all-space "${CONV_DIR}/${FNAME}-original.txt" "${CONV_DIR}/${FNAME}-${FMT}.txt" > "${CONV_DIR}/${FNAME}-${FMT}.diff" || true
         fi
     done
 }

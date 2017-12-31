@@ -106,14 +106,32 @@ void inplace_trim(char* s)
 }
 
 /*! Optimizes the number (\a num) for output to a text file and returns it as a string (\a str). */
-char* emb_optOut(double num, char* str)
+char *emb_optOut(double num, char *str)
 {
     /* Convert the number to a string */
-    sprintf(str, "%.10f", num);
+    sprintf(str, "%.05f", num);
     /* Remove trailing zeroes */
     rTrim(str, '0');
     /* Remove the decimal point if it happens to be an integer */
     rTrim(str, '.');
+    return str;
+}
+
+/*! Optimizes the number (\a num) for output to a text file and returns it as a string (\a str). */
+char *emb_optOut1d(double num, char str[32])
+{
+    str[0] = '\0';
+    /* Convert the number to a string */
+    sprintf(str, "%.01f", num);
+    /* Remove trailing zeroes */
+    rTrim(str, '0');
+    /* Remove the decimal point if it happens to be an integer */
+    rTrim(str, '.');
+    if (strncmp(str, "-0", 2) == 0)
+    {
+        str[0] = '0';
+        str[1] = '\0';
+    }
     return str;
 }
 

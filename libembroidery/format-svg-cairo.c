@@ -17,12 +17,9 @@
 
 
 #define EMB_SVG_DPI 96.
-#define EMB_SVG_IN_PER_PX (1. / EMB_SVG_DPI)
-#define EMB_SVG_CM_PER_PX (2.54 * EMB_SVG_IN_PER_PX)
-#define EMB_SVG_MM_PER_PX (10 * EMB_SVG_CM_PER_PX)
 
-#define EMB_SVG_AS_MM(val) (val / EMB_SVG_MM_PER_PX)
-#define EMB_SVG_OUTPUT_MM(val, tmp) emb_optOut(val / EMB_SVG_MM_PER_PX, tmp)
+#define EMB_SVG_AS_MM(val) (val)
+#define EMB_SVG_OUTPUT_MM(val, tmp) emb_optOut1d(val, tmp)
 
 EmbColor parseSvgPaintColor(NSVGpaint stroke)
 {
@@ -205,10 +202,10 @@ int writeSvg(EmbPattern *pattern, const char *fileName)
      *       Until all of the formats and API is stable, the width, height and viewBox attributes need to be left unspecified.
      *       If the attribute values are incorrect, some applications wont open it at all.
      */
-    embFile_printf(file, "viewBox=\"%s %s ",
+    embFile_printf(file, "viewBox=\"%s %s",
                    EMB_SVG_OUTPUT_MM(boundingRect.left, tmpX),
                    EMB_SVG_OUTPUT_MM(boundingRect.top, tmpY));
-    embFile_printf(file, " %s %s\" ",
+    embFile_printf(file, " %s %s\"",
                    EMB_SVG_OUTPUT_MM(embRect_width(boundingRect), tmpX),
                    EMB_SVG_OUTPUT_MM(embRect_height(boundingRect), tmpY));
     embFile_printf(file, " width=\"%smm\" height=\"%smm\" ",
@@ -235,7 +232,7 @@ int writeSvg(EmbPattern *pattern, const char *fileName)
         circle = cObjList->circleObj.circle;
         color = cObjList->circleObj.color;
         /* TODO: use proper thread width for stoke-width rather than just 0.2 */
-        embFile_printf(file, "\n<circle stroke-width=\"0.2\" stroke=\"#%02x%02x%02x\" fill=\"none\" cx=\"%s\" cy=\"%s\"",
+        embFile_printf(file, "\n<circle stroke-width=\"0.2px\" stroke=\"#%02x%02x%02x\" fill=\"none\" cx=\"%s\" cy=\"%s\"",
                        color.r,
                        color.g,
                        color.b,
@@ -253,7 +250,7 @@ int writeSvg(EmbPattern *pattern, const char *fileName)
         ellipse = eObjList->ellipseObj.ellipse;
         color = eObjList->ellipseObj.color;
         /* TODO: use proper thread width for stoke-width rather than just 0.2 */
-        embFile_printf(file, "\n<ellipse stroke-width=\"0.2\" stroke=\"#%02x%02x%02x\" fill=\"none\" cx=\"%s\" cy=\"%s\"",
+        embFile_printf(file, "\n<ellipse stroke-width=\"0.2px\" stroke=\"#%02x%02x%02x\" fill=\"none\" cx=\"%s\" cy=\"%s\"",
                        color.r,
                        color.g,
                        color.b,
@@ -272,7 +269,7 @@ int writeSvg(EmbPattern *pattern, const char *fileName)
         line = liObjList->lineObj.line;
         color = liObjList->lineObj.color;
         /* TODO: use proper thread width for stoke-width rather than just 0.2 */
-        embFile_printf(file, "\n<line stroke-width=\"0.2\" stroke=\"#%02x%02x%02x\" fill=\"none\" x1=\"%s\" y1=\"%s\"",
+        embFile_printf(file, "\n<line stroke-width=\"0.2px\" stroke=\"#%02x%02x%02x\" fill=\"none\" x1=\"%s\" y1=\"%s\"",
                        color.r,
                        color.g,
                        color.b,
@@ -294,7 +291,7 @@ int writeSvg(EmbPattern *pattern, const char *fileName)
         * Section 9.5 The 'line' element
         * Section C.6 'path' element implementation notes */
         /* TODO: use proper thread width for stoke-width rather than just 0.2 */
-        embFile_printf(file, "\n<line stroke-linecap=\"round\" stroke-width=\"0.2\" stroke=\"#%02x%02x%02x\" fill=\"none\" x1=\"%s\" y1=\"%s\"",
+        embFile_printf(file, "\n<line stroke-linecap=\"round\" stroke-width=\"0.2px\" stroke=\"#%02x%02x%02x\" fill=\"none\" x1=\"%s\" y1=\"%s\"",
                        color.r,
                        color.g,
                        color.b,
@@ -315,7 +312,7 @@ int writeSvg(EmbPattern *pattern, const char *fileName)
         {
             color = pogObjList->polygonObj->color;
             /* TODO: use proper thread width for stoke-width rather than just 0.2 */
-            embFile_printf(file, "\n<polygon stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"0.2\" stroke=\"#%02x%02x%02x\" fill=\"none\" points=\"%s,%s",
+            embFile_printf(file, "\n<polygon stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"0.2px\" stroke=\"#%02x%02x%02x\" fill=\"none\" points=\"%s,%s",
                            color.r,
                            color.g,
                            color.b,
@@ -341,7 +338,7 @@ int writeSvg(EmbPattern *pattern, const char *fileName)
         {
             color = polObjList->polylineObj->color;
             /* TODO: use proper thread width for stoke-width rather than just 0.2 */
-            embFile_printf(file, "\n<polyline stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"0.2\" stroke=\"#%02x%02x%02x\" fill=\"none\" points=\"%s,%s",
+            embFile_printf(file, "\n<polyline stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"0.2px\" stroke=\"#%02x%02x%02x\" fill=\"none\" points=\"%s,%s",
                            color.r,
                            color.g,
                            color.b,
@@ -365,7 +362,7 @@ int writeSvg(EmbPattern *pattern, const char *fileName)
         rect = rObjList->rectObj.rect;
         color = rObjList->rectObj.color;
         /* TODO: use proper thread width for stoke-width rather than just 0.2 */
-        embFile_printf(file, "\n<rect stroke-width=\"0.2\" stroke=\"#%02x%02x%02x\" fill=\"none\" x=\"%f\" y=\"%f\"",
+        embFile_printf(file, "\n<rect stroke-width=\"0.2px\" stroke=\"#%02x%02x%02x\" fill=\"none\" x=\"%f\" y=\"%f\"",
                        color.r,
                        color.g,
                        color.b,
@@ -390,7 +387,7 @@ int writeSvg(EmbPattern *pattern, const char *fileName)
                 isNormal = 1;
                 color = embThreadList_getAt(pattern->threadList, stList->stitch.color).color;
                 /* TODO: use proper thread width for stoke-width rather than just 0.2 */
-                embFile_printf(file, "\n<polyline stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"0.2mm\" stroke=\"#%02x%02x%02x\" fill=\"none\" points=\"%s,%s",
+                embFile_printf(file, "\n<polyline stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"0.2px\" stroke=\"#%02x%02x%02x\" fill=\"none\" points=\"%s,%s",
                                color.r,
                                color.g,
                                color.b,

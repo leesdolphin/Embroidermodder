@@ -25,7 +25,8 @@ char* rTrim(char* const str, char junk);
 char* lTrim(char* const str, char junk);
 char *copy_trim(char const *s);
 void inplace_trim(char *s);
-char* emb_optOut(double num, char* str);
+char *emb_optOut(double num, char *str);
+char *emb_optOut1d(double num, char str[32]);
 char* emb_strdup(const char* src);
 
 #ifdef __cplusplus
