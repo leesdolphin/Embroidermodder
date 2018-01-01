@@ -19,7 +19,7 @@ env:
 matrix:
   exclude:
     - os: osx
-      env: QT_VERSION=4
+      env: QT_VERSION=4 QT_OPENGL_DEV_PACKAGE=libqt4-opengl-dev
 
 before_install:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
