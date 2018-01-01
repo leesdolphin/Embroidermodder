@@ -3,11 +3,25 @@
 #include <string.h>
 #include "emb-reader-writer.h"
 #include "emb-hash.h"
+#include "libembroidery-test-hus-compress.h"
+#include "test-utils.h"
 
-#define RED_TERM_COLOR "\e[0;31m"
-#define GREEN_TERM_COLOR "\e[0;32m"
-#define YELLOW_TERM_COLOR "\e[1;33m"
-#define RESET_TERM_COLOR "\033[0m"
+#ifdef EMB_TEST_NO_COLOR
+
+#define RED_TERM_COLOR ""
+#define GREEN_TERM_COLOR ""
+#define YELLOW_TERM_COLOR ""
+#define RESET_TERM_COLOR ""
+
+#else /* EMB_TEST_NO_COLOR */
+
+#define RED_TERM_COLOR "\x1b[0;31m"
+#define GREEN_TERM_COLOR "\x1b[0;32m"
+#define YELLOW_TERM_COLOR "\x1b[1;33m"
+#define RESET_TERM_COLOR "\x1b[0m"
+
+#endif /* EMB_TEST_NO_COLOR */
+char has_failures = 0;
 
 void todo(void)
 {
@@ -19,9 +33,10 @@ void pass(void)
     printf(GREEN_TERM_COLOR "[PASS]\n" RESET_TERM_COLOR);
 }
 
-int fail(int code)
+int fail_with_information(int code, char* information)
 {
-    printf(RED_TERM_COLOR "[FAIL] [CODE=%d]\n" RESET_TERM_COLOR, code);
+    printf(RED_TERM_COLOR "[FAIL] [CODE=%d]" RESET_TERM_COLOR ": %s\n", code, information);
+    has_failures += 1;
     return code;
 }
 
@@ -39,8 +54,8 @@ void testWrite(void)
 
 void testHash(void)
 {
+    EmbHash *hash = 0;
     printf("Hash Test...                      ");
-    EmbHash* hash = 0;
     hash = embHash_create();
     if(!hash) fail(1);
     if(!embHash_empty(hash)) fail(2);
@@ -72,6 +87,13 @@ void testHash(void)
     pass();
 }
 
+void testHusCompression()
+{
+    printf("Testing compression of \"1234567890\" ... \n");
+    doTestCompression((unsigned char*) "1234567890", 10);
+    pass();
+}
+
 int main(int argc, const char* argv[])
 {
     /*TODO: Add tests here */
@@ -79,6 +101,12 @@ int main(int argc, const char* argv[])
     testRead();
     testWrite();
     testHash();
+
+    testHusCompression();
+
+    if (has_failures) {
+        return 1;
+    }
 
     return 0;
 }

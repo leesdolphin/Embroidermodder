@@ -14,7 +14,13 @@ INCLUDEPATH += \
 ../libcgeometry \
 $$PWD \
 
-SOURCES += libembroidery-test-main.c
+SOURCES += \
+../libembroidery-test/libembroidery-test-main.c \
+../libembroidery-test/libembroidery-test-hus-compress.c \
+
+HEADERS += \
+../libembroidery-test/libembroidery-test-hus-compress.h \
+
 
 include( ../libembroidery/libembroidery.pri )
 
