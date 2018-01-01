@@ -37,7 +37,10 @@ before_script:
 
 script:
     # Do only a basic build for pull requests, otherwise build for all platforms
-    - pushd ${TRAVIS_BUILD_DIR}/project-files/qmake && qmake && make && popd
+    # - pushd ${TRAVIS_BUILD_DIR}/project-files/qmake && qmake && make && popd
+    - pushd ${TRAVIS_BUILD_DIR}/libembroidery && qmake && make && popd
+    - pushd ${TRAVIS_BUILD_DIR}/libembroidery-convert && qmake && make && popd
+    - pushd ${TRAVIS_BUILD_DIR}/embroidermodder2 && qmake && make && popd
     - pushd ${TRAVIS_BUILD_DIR}/libembroidery-test && qmake && make && popd
-    - ./libembroidery-test/libembroidery-test
+    - ${TRAVIS_BUILD_DIR}/libembroidery-test/libembroidery-test
 
