@@ -110,16 +110,13 @@ void binaryReadUnicodeString(EmbFile* file, char *buffer, const int stringLength
 
 float binaryReadFloat(EmbFile* file)
 {
-    union
-    {
-        float f32;
-        unsigned int u32;
-    } float_int_u;
-    float_int_u.u32 = embFile_getc(file);
-    float_int_u.u32 |= embFile_getc(file) << 8;
-    float_int_u.u32 |= embFile_getc(file) << 16;
-    float_int_u.u32 |= embFile_getc(file) << 24;
-    return float_int_u.f32;
+    unsigned char store[4] = {
+        embFile_getc(file),
+        embFile_getc(file),
+        embFile_getc(file),
+        embFile_getc(file),
+    };
+    return *((float*) store);
 }
 
 void binaryWriteByte(EmbFile* file, unsigned char data)
@@ -190,17 +187,9 @@ void binaryWriteUIntBE(EmbFile* file, unsigned int data)
 
 void binaryWriteFloat(EmbFile* file, float data)
 {
-    union
-    {
-        float f32;
-        unsigned int u32;
-    } float_int_u;
-    float_int_u.f32 = data;
-
-    embFile_putc(float_int_u.u32 & 0xFF, file);
-    embFile_putc((float_int_u.u32 >> 8) & 0xFF, file);
-    embFile_putc((float_int_u.u32 >> 16) & 0xFF, file);
-    embFile_putc((float_int_u.u32 >> 24) & 0xFF, file);
+    // unsigned char store[4];
+    // memcpy(store, &data, 0, 4);
+    // embFile_write(store, 1, 4, file);
 }
 
 /* kate: bom off; indent-mode cstyle; indent-width 4; replace-trailing-space-save on; */

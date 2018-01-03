@@ -54,7 +54,8 @@ int readSvg(EmbPattern* pattern, const char* fileName)
     int i;
     double* p = NULL;
     int colorChanges = 0;
-    int generateColorStitch = 0;
+    char generateColorStitch = 0;
+    char generateCutStitch = 0;
     EmbColor oldColor, color;
     EmbThread t;
 
@@ -109,8 +110,12 @@ int readSvg(EmbPattern* pattern, const char* fileName)
                  * Ignoring that and assuming lines from start to finish
                  */
                 p = &path->pts[i * 2];
-                if (i == 0) {
-                    if (generateColorStitch) {
+                if (i == 0)
+                {
+                    if (generateCutStitch) { embPattern_addStitchRel(pattern, 0, 0, TRIM, 1); }
+                    generateCutStitch = 1;
+                    if (generateColorStitch)
+                    {
                         printf("Generating color stich: %x %x %x\n", color.r, color.g, color.b);
                         embPattern_addStitchAbs(pattern, p[0], p[1], STOP, 1);
                         generateColorStitch = 0;

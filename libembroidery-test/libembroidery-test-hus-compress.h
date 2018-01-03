@@ -11,12 +11,6 @@ extern "C" {
 #include <string.h>
 #include "emb-compress.h"
 
-/* Copied from format-hus.c */
-unsigned char *husDecompressData_(unsigned char *input, int compressedInputLength, int decompressedContentLength);
-
-/* Copied from format-hus.c */
-unsigned char *husCompressData_(unsigned char *input, int decompressedInputSize, int *compressedSize);
-
 void doTestCompression(unsigned char *input, size_t length);
 
 #ifdef __cplusplus

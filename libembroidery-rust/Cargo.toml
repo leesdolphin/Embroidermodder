@@ -1,0 +1,19 @@
+[package]
+name = "libembroidery"
+version = "0.1.0"
+authors = ["Lee Symes <lee@catalyst.net.nz>"]
+build = "build.rs"
+
+[lib]
+name = "embroidery_rust"
+crate-type = ["staticlib"]
+
+[build-dependencies]
+# rusty-cheddar = { git = "https://gitlab.com/rusty-binder/rusty-cheddar.git" }
+rusty-cheddar = { path = "../../rusty-cheddar" }
+rusty-binder = { git = "https://gitlab.com/rusty-binder/rusty-binder.git" }
+
+[dependencies]
+libc = "0.2"
+
+

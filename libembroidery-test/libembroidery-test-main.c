@@ -33,9 +33,9 @@ void pass(void)
     printf(GREEN_TERM_COLOR "[PASS]\n" RESET_TERM_COLOR);
 }
 
-int fail_with_information(int code, char* information)
+int do_fail(int code, char *file, int line, const char *function, char *information)
 {
-    printf(RED_TERM_COLOR "[FAIL] [CODE=%d]" RESET_TERM_COLOR ": %s\n", code, information);
+    printf(RED_TERM_COLOR "[FAIL] [CODE=%d]" RESET_TERM_COLOR "%s:%i in %s:\n\t\t%s\n", code, file, line, function, information);
     has_failures += 1;
     return code;
 }

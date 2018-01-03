@@ -87,7 +87,7 @@ unsigned char _245;
 short _246;
 int _531;
 unsigned long _533;
-unsigned long _534;
+unsigned long inputSize_534;
 
 int mStatus;
 int currentIndex;

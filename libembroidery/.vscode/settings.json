@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "functional": "cpp",
+        "emb-logging.h": "c",
+        "format-csv.h": "c"
+    }
+}

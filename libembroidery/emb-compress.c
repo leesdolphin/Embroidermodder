@@ -425,14 +425,14 @@ void husExpand_258(int _259, unsigned char* _260, int _261, unsigned short* _262
 }
 
 /*****************************************
-* HUS Compress Functions
-****************************************/
+ * HUS Compress Functions
+ ****************************************/
 
-int husCompress(unsigned char* _266, unsigned long _inputSize, unsigned char* _267, int _269, int _235)
+int husCompress(unsigned char* _inputArray, unsigned long _inputSize, unsigned char* _outputArray, int _269, int _235)
 {
     int returnVal;
-    inputArray = _266;
-    outputArray = _267;
+    inputArray = _inputArray;
+    outputArray = _outputArray;
     _531 = _235;
     if(_269 > _137 || _269 < _138)
     {
@@ -479,7 +479,7 @@ int husCompress(unsigned char* _266, unsigned long _inputSize, unsigned char* _2
         mStatus = -1;
     }
     _533 = 0;
-    _534 = _inputSize;
+    inputSize_534 = _inputSize;
     inputLength = _inputSize;
     inputPosition = 0;
     outputPosition = 0;
@@ -848,7 +848,7 @@ void husCompress_210(void)
 {
     if(_171 <= 0)
         return;
-    if(_531 && (_533 += _171) >= _534)
+    if(_531 && (_533 += _171) >= inputSize_534)
         _170 = 1;
     else
     {

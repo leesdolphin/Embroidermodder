@@ -1,5 +1,15 @@
 INCLUDEPATH += ../libembroidery
 
+include( ../libembroidery-rust/libembroidery-rust.pri )
+
+
+debug {
+    INCLUDEPATH += ../libembroidery-rust/target/debug
+}
+!debug {
+    INCLUDEPATH += ../libembroidery-rust/target/release
+}
+
 msvc {
 QMAKE_CFLAGS += /Za #equivalent of -pedantic-errors
 }
@@ -27,10 +37,8 @@ SOURCES += \
 ../libembroidery/compound-file-directory.c \
 ../libembroidery/compound-file-fat.c \
 ../libembroidery/compound-file-header.c \
-../libembroidery/emb-arc.c \
 ../libembroidery/emb-circle.c \
 ../libembroidery/emb-compress.c \
-../libembroidery/emb-color.c \
 ../libembroidery/emb-ellipse.c \
 ../libembroidery/emb-file.c \
 ../libembroidery/emb-flag.c \
@@ -129,10 +137,8 @@ HEADERS += \
 ../libembroidery/compound-file-directory.h \
 ../libembroidery/compound-file-fat.h \
 ../libembroidery/compound-file-header.h \
-../libembroidery/emb-arc.h \
 ../libembroidery/emb-circle.h \
 ../libembroidery/emb-compress.h \
-../libembroidery/emb-color.h \
 ../libembroidery/emb-ellipse.h \
 ../libembroidery/emb-file.h \
 ../libembroidery/emb-flag.h \

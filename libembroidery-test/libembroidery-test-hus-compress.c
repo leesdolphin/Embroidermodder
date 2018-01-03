@@ -8,12 +8,14 @@
 /* Copied from format-hus.c */
 unsigned char *husDecompressData_(unsigned char *input, int compressedInputLength, int decompressedContentLength)
 {
-    unsigned char *decompressedData = (unsigned char *)malloc(sizeof(unsigned char) * decompressedContentLength);
+    size_t size = sizeof(unsigned char) *decompressedContentLength;
+    unsigned char *decompressedData = (unsigned char *)malloc(size);
     if (!decompressedData)
     {
         fail_with_information(1, "format-hus.c husDecompressData(), cannot allocate memory for decompressedData\n");
         return NULL;
     }
+    memset(decompressedData, 0xff, size);
     husExpand((unsigned char *)input, decompressedData, compressedInputLength, 10);
     return decompressedData;
 }
@@ -21,12 +23,14 @@ unsigned char *husDecompressData_(unsigned char *input, int compressedInputLengt
 /* Copied from format-hus.c */
 unsigned char *husCompressData_(unsigned char *input, int decompressedInputSize, int *compressedSize)
 {
-    unsigned char *compressedData = (unsigned char *)malloc(sizeof(unsigned char) * decompressedInputSize * 2);
+    size_t size = sizeof(unsigned char) *decompressedInputSize * 2;
+    unsigned char *compressedData = (unsigned char *)malloc(size);
     if (!compressedData)
     {
         fail_with_information(1, "format-hus.c husCompressData(), cannot allocate memory for compressedData\n");
         return NULL;
     }
+    memset(compressedData, 0xff, size);
     *compressedSize = husCompress(input, (unsigned long)decompressedInputSize, compressedData, 10, 0);
     return compressedData;
 }
