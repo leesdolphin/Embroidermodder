@@ -13,7 +13,7 @@ compiler:
 env:
     matrix:
         - QT_VERSION=qt4 QT_OPENGL_DEV_PACKAGE=libqt4-opengl-dev
-        - QT_VERSION=qt5 QT_OPENGL_DEV_PACKAGE=libqt5opengl-dev
+        - QT_VERSION=qt5 QT_OPENGL_DEV_PACKAGE=libqt5opengl5-dev
 
 
 matrix:

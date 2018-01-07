@@ -63,7 +63,6 @@ SOURCES += \
 ../libembroidery/emb-time.c \
 ../libembroidery/emb-vector.c \
 ../libembroidery/hashtable.c \
-../libembroidery/helpers-binary.c \
 ../libembroidery/helpers-misc.c \
 ../libembroidery/thread-color.c \
 ../libembroidery/format-10o.c \

@@ -1,6 +1,3 @@
-
-
-
 #[macro_export]
 macro_rules! embLog_error {
     ($fmtstr: expr) => { embLog_error!($fmtstr,) };

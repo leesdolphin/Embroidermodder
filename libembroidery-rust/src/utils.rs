@@ -1,4 +1,3 @@
-
 macro_rules! from_hex_or {
     ($value: expr, $range: expr) => {
         from_hex_or!($value, $range, 0)

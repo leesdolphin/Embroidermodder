@@ -1,12 +1,6 @@
-use pattern::color::EmbColor;
+use libc;
 
-#[macro_use]
-use error::macros;
-
-extern "C" {
-    fn free(__ptr: *mut ::std::os::raw::c_void);
-    fn malloc(__size: usize) -> *mut ::std::os::raw::c_void;
-}
+use pattern::utils::color::EmbColor;
 
 #[derive(Copy)]
 #[repr(C)]
@@ -72,7 +66,7 @@ pub unsafe extern "C" fn embArcObject_create(
     mut ey: f64,
 ) -> *mut EmbArcObject {
     let mut heapArcObj: *mut EmbArcObject =
-        malloc(::std::mem::size_of::<EmbArcObject>()) as (*mut EmbArcObject);
+        libc::malloc(::std::mem::size_of::<EmbArcObject>()) as (*mut EmbArcObject);
     if heapArcObj.is_null() {
         0i32 as (*mut EmbArcObject)
     } else {
@@ -111,7 +105,7 @@ pub unsafe extern "C" fn embArcObjectList_add(
         embLog_error!("emb-arc.c embArcObjectList_add(), pointer->next should be null\n");
         0i32 as (*mut EmbArcObjectList)
     } else {
-        (*pointer).next = malloc(::std::mem::size_of::<EmbArcObjectList>())
+        (*pointer).next = libc::malloc(::std::mem::size_of::<EmbArcObjectList>())
             as (*mut EmbArcObjectList) as (*mut EmbArcObjectList);
         (if (*pointer).next.is_null() {
             embLog_error!(
@@ -162,7 +156,7 @@ pub unsafe extern "C" fn embArcObjectList_free(mut pointer: *mut EmbArcObjectLis
             break;
         }
         nextPointer = (*tempPointer).next as (*mut EmbArcObjectList);
-        free(tempPointer as (*mut ::std::os::raw::c_void));
+        libc::free(tempPointer as (*mut libc::c_void));
         tempPointer = nextPointer;
     }
     pointer = 0i32 as (*mut EmbArcObjectList);

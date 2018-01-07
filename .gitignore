@@ -113,5 +113,10 @@ experimental/python/gui/embroiderdocs/_build
 ## Bindings stuff
 build-swigpython-Desktop_Qt_[0-9]_[0-9]_[0-9]_MinGW_32bit-Debug
 
+#####################
+# Experimental Rust #
+#####################
+
+libembroidery-rust/target/
 
 roundabout-convert/

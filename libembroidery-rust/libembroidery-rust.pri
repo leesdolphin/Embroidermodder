@@ -10,9 +10,10 @@ debug:RUST_BUILD_MODE="debug"
 RUST_BUILD_PATH=../libembroidery-rust/target/$$RUST_BUILD_MODE
 
 # Custom QMake target to run `cargo build`.
+pattern.h.depends = build_rust
 build_rust.commands = cd ../libembroidery-rust && $$CARGO build --lib $$RUST_BUILD_FLAGS
 
-QMAKE_EXTRA_TARGETS += build_rust
+QMAKE_EXTRA_TARGETS += build_rust pattern.h
 PRE_TARGETDEPS += build_rust
 
 
