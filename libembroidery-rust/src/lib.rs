@@ -1,3 +1,5 @@
+#![allow(warnings)]
+
 extern crate chrono;
 extern crate libc;
 extern crate rand;
@@ -35,7 +37,11 @@ pub use pattern::settings::*;
 pub use pattern::spline::*;
 pub use pattern::stitch::*;
 
-// pub use ::pattern::polyline::*;
+pub use pattern::pattern::*;
+
+pub mod formats;
+pub use formats::*;
+pub use formats::reader_writer::*;
 
 #[cfg(test)]
 mod tests {

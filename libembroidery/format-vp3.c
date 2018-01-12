@@ -69,14 +69,14 @@ static vp3Hoop vp3ReadHoopSection(EmbFile* file)
 {
     vp3Hoop hoop;
 
-    if(!file)
-	{
+    if(!file) 
+	{ 
 		embLog_error("format-vp3.c vp3ReadHoopSection(), file argument is null\n");
 		hoop.bottom = 0;
 		hoop.left = 0;
 		hoop.right = 0;
 		hoop.top = 0;
-		return hoop;
+		return hoop; 
 	}
 
     hoop.right = binaryReadInt32BE(file);
@@ -408,7 +408,7 @@ int writeVp3(EmbPattern* pattern, const char* fileName)
     mainPointer = pattern->stitchList;
     while(mainPointer)
     {
-        char colorName[8] = "";
+        char colorName[8] = { 0 };
         double lastX, lastY;
         int colorSectionLengthPos;
         EmbStitch s;

@@ -17,6 +17,7 @@ QMAKE_CFLAGS += /Za #equivalent of -pedantic-errors
 !msvc {
 #Ensure anything that does not strictly adhere to C89 is treated as an error
 QMAKE_CFLAGS += -std=c89 -pedantic-errors
+QMAKE_CFLAGS += -funsigned-char
 QMAKE_CFLAGS += -fvisibility=hidden #Check exported symbols using: nm -C -D libembroidery.so | grep ' T '
 
 #Ensure all implicit function declarations are errors rather than warnings
@@ -42,7 +43,6 @@ SOURCES += \
 ../libembroidery/emb-format.c \
 ../libembroidery/emb-layer.c \
 ../libembroidery/emb-logging.c \
-../libembroidery/emb-pattern.c \
 ../libembroidery/emb-reader-writer.c \
 ../libembroidery/emb-satin-line.c \
 ../libembroidery/helpers-misc.c \

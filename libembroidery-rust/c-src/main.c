@@ -12,7 +12,12 @@ int main(int argc, const char *argv[])
     assert_eq(macro->b, 12, "Red is not equal.")
     free(macro);
 
-    if (failure_count > 0) {
+    EmbPattern *pattern = embPattern_create();
+    embPattern_scale(pattern, 2.0);
+    embPattern_free(pattern);
+
+    if (failure_count > 0)
+    {
         return 1;
     } else {
         return 0;

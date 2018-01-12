@@ -120,3 +120,5 @@ build-swigpython-Desktop_Qt_[0-9]_[0-9]_[0-9]_MinGW_32bit-Debug
 libembroidery-rust/target/
 
 roundabout-convert/
+
+libembroidery/*.rs

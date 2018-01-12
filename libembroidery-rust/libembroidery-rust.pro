@@ -6,3 +6,4 @@ SOURCES += \
 
 HEADERS += \
     c-src/test.h
+    c-src/emb-file.h

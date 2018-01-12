@@ -12,3 +12,5 @@ pub mod rect;
 pub mod settings;
 pub mod spline;
 pub mod stitch;
+
+pub mod pattern;
