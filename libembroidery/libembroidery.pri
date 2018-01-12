@@ -19,6 +19,7 @@ QMAKE_CFLAGS += /Za #equivalent of -pedantic-errors
 QMAKE_CFLAGS += -std=c89 -pedantic-errors
 QMAKE_CFLAGS += -funsigned-char
 QMAKE_CFLAGS += -fvisibility=hidden #Check exported symbols using: nm -C -D libembroidery.so | grep ' T '
+QMAKE_CFLAGS += -Wno-pointer-sign
 
 #Ensure all implicit function declarations are errors rather than warnings
 QMAKE_CFLAGS_WARN_ON += -Werror=implicit-function-declaration
@@ -33,19 +34,12 @@ QMAKE_CFLAGS_WARN_ON += -Werror=implicit-function-declaration
 #QMAKE_CFLAGS_WARN_ON += -Wno-unused-variable
 
 SOURCES += \
-../libembroidery/compound-file.c \
-../libembroidery/compound-file-difat.c \
-../libembroidery/compound-file-directory.c \
-../libembroidery/compound-file-fat.c \
-../libembroidery/compound-file-header.c \
 ../libembroidery/emb-compress.c \
 ../libembroidery/emb-file.c \
 ../libembroidery/emb-format.c \
-../libembroidery/emb-layer.c \
 ../libembroidery/emb-logging.c \
 ../libembroidery/emb-reader-writer.c \
 ../libembroidery/emb-satin-line.c \
-../libembroidery/helpers-misc.c \
 ../libembroidery/thread-color.c \
 ../libembroidery/format-10o.c \
 ../libembroidery/format-100.c \
@@ -79,14 +73,11 @@ SOURCES += \
 ../libembroidery/format-max.c \
 ../libembroidery/format-mit.c \
 ../libembroidery/format-new.c \
-../libembroidery/format-ofm.c \
 ../libembroidery/format-pcd.c \
 ../libembroidery/format-pcm.c \
 ../libembroidery/format-pcq.c \
 ../libembroidery/format-pcs.c \
 ../libembroidery/format-pec.c \
-../libembroidery/format-pel.c \
-../libembroidery/format-pem.c \
 ../libembroidery/format-pes.c \
 ../libembroidery/format-phb.c \
 ../libembroidery/format-phc.c \
@@ -112,42 +103,14 @@ SOURCES += \
 HEADERS += \
 ../libembroidery/api-start.h \
 ../libembroidery/api-stop.h \
-../libembroidery/compound-file.h \
-../libembroidery/compound-file-common.h \
-../libembroidery/compound-file-difat.h \
-../libembroidery/compound-file-directory.h \
-../libembroidery/compound-file-fat.h \
-../libembroidery/compound-file-header.h \
 ../libembroidery/constants.h \
-../libembroidery/emb-circle.h \
 ../libembroidery/emb-compress.h \
-../libembroidery/emb-ellipse.h \
 ../libembroidery/emb-file.h \
-../libembroidery/emb-flag.h \
 ../libembroidery/emb-format.h \
-../libembroidery/emb-hash.h \
-../libembroidery/emb-hoop.h \
-../libembroidery/emb-layer.h \
-../libembroidery/emb-line.h \
 ../libembroidery/emb-logging.h \
-../libembroidery/emb-path.h \
-../libembroidery/emb-pattern.h \
-../libembroidery/emb-point.h \
-../libembroidery/emb-polygon.h \
-../libembroidery/emb-polyline.h \
 ../libembroidery/emb-reader-writer.h \
-../libembroidery/emb-rect.h \
 ../libembroidery/emb-satin-line.h \
-../libembroidery/emb-settings.h \
-../libembroidery/emb-spline.h \
-../libembroidery/emb-stitch.h \
-../libembroidery/emb-thread.h \
-../libembroidery/emb-time.h \
-../libembroidery/emb-vector.h \
 ../libembroidery/hashtable.h \
-../libembroidery/helpers-binary.h \
-../libembroidery/helpers-misc.h \
-../libembroidery/helpers-unused.h \
 ../libembroidery/thread-color.h \
 ../libembroidery/formats.h \
 ../libembroidery/format-10o.h \
@@ -182,7 +145,6 @@ HEADERS += \
 ../libembroidery/format-max.h \
 ../libembroidery/format-mit.h \
 ../libembroidery/format-new.h \
-../libembroidery/format-ofm.h \
 ../libembroidery/format-pcd.h \
 ../libembroidery/format-pcm.h \
 ../libembroidery/format-pcq.h \

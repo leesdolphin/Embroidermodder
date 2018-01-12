@@ -2,8 +2,9 @@
 #include "emb-compress.h"
 #include "emb-file.h"
 #include "emb-logging.h"
-#include "helpers-binary.h"
-#include "helpers-misc.h"
+
+#include "pattern.h"
+
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>

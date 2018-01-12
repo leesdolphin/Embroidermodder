@@ -1,7 +1,8 @@
 #include "format-new.h"
 #include "emb-file.h"
 #include "emb-logging.h"
-#include "helpers-binary.h"
+
+#include "pattern.h"
 
 static int decodeNewStitch(unsigned char value)
 {

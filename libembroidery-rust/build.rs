@@ -13,7 +13,6 @@ fn c89_header() -> cheddar::Header {
         .insert_code("#include <stdio.h>\n")
         // Allow us to use `uint8_t` and the like.
         .insert_code("#include <inttypes.h>\n")
-
         .insert_code("#include \"emb-file.h\"\n")
 }
 
@@ -30,6 +29,7 @@ fn main() {
         "helpers",
         "helpers::binary",
         "helpers::hash",
+        "helpers::misc",
         "helpers::time",
         "pattern",
         "pattern::utils",

@@ -1,7 +1,9 @@
 #include "format-svg.h"
 #include "emb-file.h"
 #include "emb-logging.h"
-#include "helpers-misc.h"
+
+#include "pattern.h"
+
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>

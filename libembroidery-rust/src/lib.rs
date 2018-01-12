@@ -13,6 +13,7 @@ pub mod helpers;
 pub use helpers::*;
 pub use helpers::binary::*;
 pub use helpers::hash::*; // Used in 1 location.
+pub use helpers::misc::*;
 pub use helpers::time::*;
 
 pub mod pattern;

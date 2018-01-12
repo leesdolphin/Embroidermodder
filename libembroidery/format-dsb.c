@@ -1,7 +1,9 @@
 #include "format-dsb.h"
 #include "emb-file.h"
 #include "emb-logging.h"
-#include "helpers-misc.h"
+
+#include "pattern.h"
+
 #include <stdlib.h>
 #include <math.h>
 

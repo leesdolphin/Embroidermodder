@@ -1,10 +1,9 @@
 #include "format-jef.h"
 #include "emb-file.h"
 #include "emb-logging.h"
-#include "emb-time.h"
-#include "helpers-binary.h"
-#include "helpers-misc.h"
-#include "emb-stitch.h"
+
+#include "pattern.h"
+
 #include <stdio.h>
 
 #define HOOP_110X110 0
@@ -75,9 +74,9 @@ int readJef(EmbPattern* pattern, const char* fileName)
     struct hoop_padding bounds, rectFrom110x110, rectFrom50x50, rectFrom200x140, rect_from_custom;
     int stitchBytes;
     char date[8], time[8];
-  
+
     EmbFile* file = 0;
- 
+
     unsigned char b0 = 0, b1 = 0;
     char dx = 0, dy = 0;
     int flags = 0;

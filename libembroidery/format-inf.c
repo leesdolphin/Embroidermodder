@@ -1,7 +1,9 @@
 #include "format-inf.h"
 #include "emb-file.h"
 #include "emb-logging.h"
-#include "helpers-binary.h"
+
+#include "pattern.h"
+
 #include <stdlib.h>
 #include <string.h>
 

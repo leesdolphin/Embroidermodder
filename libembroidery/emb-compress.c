@@ -3,7 +3,8 @@
 #include <string.h>
 #include <stdio.h>
 #include "emb-compress.h"
-#include "emb-thread.h"
+
+#include "pattern.h"
 
 void husExpand(unsigned char* input, unsigned char* output, int compressedSize, int _269)
 {
@@ -572,12 +573,12 @@ int husCompress_compress(void)
     for(; _209 < _140; _209++)
     {
         int _203;
-        if(inputPosition >= inputLength) 
+        if(inputPosition >= inputLength)
             break;
         _203 = (int)(unsigned char)inputArray[inputPosition];
         inputPosition += 1;
         _278[s] = (unsigned char)_203;
-        if(s < _140 - 1) 
+        if(s < _140 - 1)
             _278[s + _279] = _278[s];
         husCompress_448(s);
         s = (short)((s + 1)&(_280));
@@ -597,7 +598,7 @@ int husCompress_compress(void)
         while(--_168 >= 0)
         {
             int _203;
-            if(inputPosition >= inputLength) 
+            if(inputPosition >= inputLength)
                 break;
             _203 = (int)(unsigned char) inputArray[inputPosition];
             inputPosition += 1;
@@ -932,7 +933,7 @@ void husCompress_216(unsigned short* _217)
                 _226++;
                 _277++;
             }
-            if(_277 <= 2) 
+            if(_277 <= 2)
                 _217[0] += _277;
             else if(_277 <= 18)
                 _217[1]++;

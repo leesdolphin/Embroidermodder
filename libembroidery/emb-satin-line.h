@@ -2,7 +2,7 @@
 #ifndef EMB_SATINLINE_H
 #define EMB_SATINLINE_H
 
-#include "emb-vector.h"
+#include "pattern.h"
 
 #include "api-start.h"
 #ifdef __cplusplus

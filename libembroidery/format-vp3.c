@@ -1,7 +1,9 @@
 #include "format-vp3.h"
-#include "helpers-binary.h"
 #include "emb-file.h"
 #include "emb-logging.h"
+
+#include "pattern.h"
+
 #include <stdlib.h>
 #include <string.h>
 
@@ -69,14 +71,14 @@ static vp3Hoop vp3ReadHoopSection(EmbFile* file)
 {
     vp3Hoop hoop;
 
-    if(!file) 
-	{ 
+    if(!file)
+	{
 		embLog_error("format-vp3.c vp3ReadHoopSection(), file argument is null\n");
 		hoop.bottom = 0;
 		hoop.left = 0;
 		hoop.right = 0;
 		hoop.top = 0;
-		return hoop; 
+		return hoop;
 	}
 
     hoop.right = binaryReadInt32BE(file);

@@ -310,15 +310,6 @@ EmbReaderWriter* embReaderWriter_getByFileName(const char* fileName)
         rw->writer = writeNew;
         #endif /* ARDUINO TODO: This is temporary. Remove when complete. */
     }
-    else if(!strcmp(ending, ".ofm"))
-    {
-        #ifdef ARDUINO /* ARDUINO TODO: This is temporary. Remove when complete. */
-        return 0; /* ARDUINO TODO: This is temporary. Remove when complete. */
-        #else /* ARDUINO TODO: This is temporary. Remove when complete. */
-        rw->reader = readOfm;
-        rw->writer = writeOfm;
-        #endif /* ARDUINO TODO: This is temporary. Remove when complete. */
-    }
     else if(!strcmp(ending, ".pcd"))
     {
         #ifdef ARDUINO /* ARDUINO TODO: This is temporary. Remove when complete. */
@@ -362,24 +353,6 @@ EmbReaderWriter* embReaderWriter_getByFileName(const char* fileName)
         #else /* ARDUINO TODO: This is temporary. Remove when complete. */
         rw->reader = readPec;
         rw->writer = writePec;
-        #endif /* ARDUINO TODO: This is temporary. Remove when complete. */
-    }
-    else if(!strcmp(ending, ".pel"))
-    {
-        #ifdef ARDUINO /* ARDUINO TODO: This is temporary. Remove when complete. */
-        return 0; /* ARDUINO TODO: This is temporary. Remove when complete. */
-        #else /* ARDUINO TODO: This is temporary. Remove when complete. */
-        rw->reader = readPel;
-        rw->writer = writePel;
-        #endif /* ARDUINO TODO: This is temporary. Remove when complete. */
-    }
-    else if(!strcmp(ending, ".pem"))
-    {
-        #ifdef ARDUINO /* ARDUINO TODO: This is temporary. Remove when complete. */
-        return 0; /* ARDUINO TODO: This is temporary. Remove when complete. */
-        #else /* ARDUINO TODO: This is temporary. Remove when complete. */
-        rw->reader = readPem;
-        rw->writer = writePem;
         #endif /* ARDUINO TODO: This is temporary. Remove when complete. */
     }
     else if(!strcmp(ending, ".pes"))

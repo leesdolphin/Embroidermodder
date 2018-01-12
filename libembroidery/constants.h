@@ -30,3 +30,16 @@
 #define STOP                4 /* pause machine for thread change */
 #define SEQUIN              8 /* sequin */
 #define END                 16 /* end of program */
+
+
+/* #define PI 3.1415926535 */
+
+#ifndef MINMAX
+#define MINMAX
+  #ifndef max
+    #define max(a,b) (((a) > (b)) ? (a) : (b))
+  #endif
+  #ifndef min
+    #define min(a,b) (((a) < (b)) ? (a) : (b))
+  #endif
+#endif

@@ -1,8 +1,8 @@
 #include "format-pcm.h"
 #include "emb-file.h"
 #include "emb-logging.h"
-#include "helpers-binary.h"
-#include "helpers-misc.h"
+
+#include "pattern.h"
 
 static double pcmDecode(unsigned char a1, unsigned char a2, unsigned char a3)
 {

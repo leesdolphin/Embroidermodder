@@ -6,8 +6,9 @@
 #include "format-dst.h"
 #include "emb-file.h"
 #include "emb-logging.h"
-#include "helpers-binary.h"
-#include "helpers-misc.h"
+
+#include "pattern.h"
+
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>

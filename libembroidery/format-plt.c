@@ -1,7 +1,8 @@
 #include "format-plt.h"
 #include "emb-logging.h"
-#include "helpers-binary.h"
-#include "helpers-misc.h"
+
+#include "pattern.h"
+
 #include <stdio.h>
 #include <string.h>
 
@@ -113,4 +114,3 @@ int writePlt(EmbPattern* pattern, const char* fileName)
 }
 
 /* kate: bom off; indent-mode cstyle; indent-width 4; replace-trailing-space-save on; */
-

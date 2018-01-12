@@ -1,8 +1,9 @@
 #include "format-t01.h"
 #include "emb-file.h"
 #include "emb-logging.h"
-#include "helpers-binary.h"
-#include "helpers-misc.h"
+
+#include "pattern.h"
+
 #include <stdio.h>
 
 static int decodeRecordFlags(unsigned char b2)
@@ -171,7 +172,7 @@ int writeT01(EmbPattern* pattern, const char* fileName)
 	int co = 1, st = 0;
 	int ax, ay, mx, my;
 	EmbStitchList* pointer = 0;
-	
+
 	if (!embStitchList_count(pattern->stitchList))
 	{
 		embLog_error("format-t01.c writeDst(), pattern contains no stitches\n");
@@ -217,4 +218,3 @@ int writeT01(EmbPattern* pattern, const char* fileName)
 }
 
 /* kate: bom off; indent-mode cstyle; indent-width 4; replace-trailing-space-save on; */
-

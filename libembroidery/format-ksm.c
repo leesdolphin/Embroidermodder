@@ -1,7 +1,8 @@
 #include "format-ksm.h"
 #include "emb-file.h"
 #include "emb-logging.h"
-#include "helpers-binary.h"
+
+#include "pattern.h"
 
 static void ksmEncode(unsigned char* b, char dx, char dy, int flags)
 {

@@ -2,7 +2,9 @@
 #include "format-jef.h"
 #include "emb-file.h"
 #include "emb-logging.h"
-#include "helpers-binary.h"
+
+#include "pattern.h"
+
 #include <string.h>
 
 static char shvDecode(unsigned char inputByte)
@@ -83,7 +85,7 @@ int readShv(EmbPattern* pattern, const char* fileName)
     something2 = binaryReadByte(file);
     numberOfSections = binaryReadUInt8(file);
     something3 = binaryReadByte(file);
-        
+
     for(i = 0; i < numberOfColors; i++)
     {
         unsigned int stitchCount, colorNumber;
@@ -95,7 +97,7 @@ int readShv(EmbPattern* pattern, const char* fileName)
     }
 
     embFile_seek(file, -2, SEEK_CUR);
-    
+
     for(i = 0; !embFile_eof(file); i++)
     {
         unsigned char b0, b1;
@@ -110,11 +112,11 @@ int readShv(EmbPattern* pattern, const char* fileName)
         }
         b0 = binaryReadUInt8(file);
         b1 = binaryReadUInt8(file);
-        if(stitchesSinceChange >= stitchesPerColor[currColorIndex]) 
+        if(stitchesSinceChange >= stitchesPerColor[currColorIndex])
         {
             embPattern_addStitchRel(pattern, 0, 0, STOP, 1);
             currColorIndex++;
-            stitchesSinceChange = 0; 
+            stitchesSinceChange = 0;
         }
         if(b0 == 0x80)
         {

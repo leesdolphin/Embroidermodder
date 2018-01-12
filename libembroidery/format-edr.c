@@ -1,7 +1,9 @@
 #include "format-edr.h"
-#include "helpers-binary.h"
 #include "emb-file.h"
 #include "emb-logging.h"
+
+#include "pattern.h"
+
 #include <stdlib.h>
 
 /*! Reads a file with the given \a fileName and loads the data into \a pattern.
