@@ -24,5 +24,8 @@ LIBS += "-L$$RUST_BUILD_PATH/" -lembroidery_rust
 LIBS += \
     -lutil \
     -lpthread \
-    -ldl
+    -ldl \
 
+# Make C consistent with Rust's interpretation of a character type.
+QMAKE_CFLAGS += \
+    -funsigned-char \

@@ -1,7 +1,9 @@
 use std::ffi::CStr;
 use std::fmt;
 use std;
+
 use libc;
+use rand;
 
 #[derive(Copy, Debug, PartialEq, Eq)]
 #[repr(C)]
@@ -30,6 +32,10 @@ impl EmbColor {
     pub fn black() -> Self {
         Self::new(0, 0, 0)
     }
+    pub fn random() -> Self {
+        Self::new(rand::random(), rand::random(), rand::random())
+    }
+
 }
 
 #[no_mangle]

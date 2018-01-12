@@ -1,3 +1,5 @@
 pub mod color;
-pub mod hoop;
 pub mod flag;
+pub mod hoop;
+pub mod thread;
+pub mod vector;

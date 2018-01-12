@@ -1,10 +1,8 @@
 use libc;
 
 use pattern::utils::color::EmbColor;
+use pattern::utils::vector::{EmbVector, embVector_normalize};
 
-extern "C" {
-    fn embVector_normalize(vector: EmbVector, result: *mut EmbVector);
-}
 
 #[derive(Copy)]
 #[repr(C)]
@@ -197,18 +195,6 @@ pub unsafe extern "C" fn embLineObjectList_free(mut pointer: *mut EmbLineObjectL
     pointer = 0i32 as (*mut EmbLineObjectList);
 }
 
-#[derive(Copy)]
-#[repr(C)]
-pub struct EmbVector {
-    pub X: f64,
-    pub Y: f64,
-}
-
-impl Clone for EmbVector {
-    fn clone(&self) -> Self {
-        *self
-    }
-}
 
 #[no_mangle]
 pub unsafe extern "C" fn embLine_normalVector(

@@ -30,8 +30,8 @@ pub struct EmbFile;
 // }
 
 #[no_mangle]
-pub unsafe extern "C" fn binaryReadByte(mut file: *mut EmbFile) -> u8 {
-    embFile_getc(file) as (u8)
+pub unsafe extern "C" fn binaryReadByte(mut file: *mut EmbFile) -> libc::c_char {
+    embFile_getc(file) as libc::c_char
 }
 
 #[no_mangle]
@@ -166,8 +166,8 @@ pub unsafe extern "C" fn binaryReadFloat(mut file: *mut EmbFile) -> f32 {
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn binaryWriteByte(mut file: *mut EmbFile, mut data: i8) {
-    embFile_putc(data as (i32), file);
+pub unsafe extern "C" fn binaryWriteByte(mut file: *mut EmbFile, mut data: libc::c_uchar) {
+    embFile_putc(data as i32, file);
 }
 
 #[no_mangle]

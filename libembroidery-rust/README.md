@@ -7,6 +7,13 @@ Conversion notes
     1. Ignore them.
     2. Eventually clean them up, maybe.
 
+- Converting to `libc` types and calls.
+    1. Use this regex: `::std::os::raw` -> `libc`
+    2. Use this regex: ` (free|malloc)` -> `libc::$1`
+
+- Converting struct names:
+    1. use this regex for Emb\* types: `(Emb.*?)_` -> `$1`
+
 - Converting logging:
     1. use this regex: `\(\*b"(.*)\\0"\)\.as_ptr\(\n\s+\)` -> `"$1"` 
     2. then `embLog_error\(` -> `embLog_error!(`.

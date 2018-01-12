@@ -1,5 +1,6 @@
 extern crate chrono;
 extern crate libc;
+extern crate rand;
 
 #[macro_use]
 pub mod error;
@@ -18,6 +19,8 @@ pub use pattern::utils::*;
 pub use pattern::utils::color::*;
 pub use pattern::utils::hoop::*;
 pub use pattern::utils::flag::*;
+pub use pattern::utils::vector::*;
+pub use pattern::utils::thread::*;
 
 pub use pattern::arc::*;
 pub use pattern::circle::*;

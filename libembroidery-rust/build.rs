@@ -36,6 +36,8 @@ fn main() {
         "pattern::utils::color",
         "pattern::utils::hoop",
         "pattern::utils::flag",
+        "pattern::utils::vector",
+        "pattern::utils::thread",
         "pattern::line",
         "pattern::point",
         "pattern::settings",

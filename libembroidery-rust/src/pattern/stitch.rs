@@ -1,5 +1,13 @@
 use libc;
 
+pub const NORMAL: u8 = 0;
+pub const JUMP: u8 = 1;
+pub const TRIM: u8 = 2;
+pub const STOP: u8 = 4;
+pub const SEQUIN: u8 = 8;
+pub const END: u8 = 16;
+
+
 #[derive(Copy)]
 #[repr(C)]
 pub struct EmbStitch {
