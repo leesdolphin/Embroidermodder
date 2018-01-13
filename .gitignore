@@ -122,3 +122,5 @@ libembroidery-rust/target/
 roundabout-convert/
 
 libembroidery/*.rs
+
+.idea

@@ -35,7 +35,6 @@ impl EmbColor {
     pub fn random() -> Self {
         Self::new(rand::random(), rand::random(), rand::random())
     }
-
 }
 
 #[no_mangle]

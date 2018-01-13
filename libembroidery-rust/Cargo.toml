@@ -2,7 +2,7 @@
 name = "libembroidery"
 version = "0.1.0"
 authors = ["Lee Symes <lee@catalyst.net.nz>"]
-build = "build.rs"
+# build = "build.rs"
 
 [lib]
 name = "embroidery_rust"
@@ -17,3 +17,5 @@ rusty-binder = { git = "https://gitlab.com/rusty-binder/rusty-binder.git" }
 libc = "0.2"
 chrono = "0.4"
 rand = "0.4"
+error-chain = "0.11.0"
+bitflags = "1.0.1"
