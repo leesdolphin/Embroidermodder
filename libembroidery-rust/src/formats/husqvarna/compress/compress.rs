@@ -86,25 +86,27 @@ struct CompressData {
     whakareri: i16, // _ 174
     purara: i16,    // _ 175
 
-    horona: u16,   //_182
-    whawha: u16,   //_183
-    piwari: u16,   //_184
-    komiti: u16,   //_185
-    puketutu: u16, //_186
+    horona: u16,   // _ 182
+    whawha: u16,   // _ 183
+    piwari: u16,   // _ 184
+    komiti: u16,   // _ 185
+    puketutu: u16, // _ 186
 
-    taruku: i32, // _531
-    wataka: i32, // _533
+    taruku: i32, // _ 531
+    wataka: i32, // _ 533
 
     /// A null-terminated buffer.
-    tutahi: [u8; TUTAHI_BUFFER_SIZE], // _165
-    hamano: [u16; 17],                // _167
-    renana: [u8; RENANA_BUFFER_SIZE], // _179
-    puri: [u16; KATOTE_PURI_SIZE],    // _189
-    katote: [u16; KATOTE_PURI_SIZE],  // _190
-    herepo: [u16; KATOTE_PURI_SIZE],  // _191
-    paerua: [u16; KATOTE_PURI_SIZE],  // _193
-                                      //    inputArray: &'a[u8],
-                                      //    outputArray: Vec<u8>,
+    tutahi: [u8; TUTAHI_BUFFER_SIZE], // _ 165
+    hamano: [u16; 17],                // _ 167
+    renana: [u8; RENANA_BUFFER_SIZE], // _ 179
+    maruka: [u8; RAWEKE],             // _ 180
+    piapia: [u8; _152],               // _ 181
+    puri: [u16; KATOTE_PURI_SIZE],    // _ 189
+    katote: [u16; KATOTE_PURI_SIZE],  // _ 190
+    herepo: [u16; KATOTE_PURI_SIZE],  // _ 191
+    hokota: [u16; RAWEKE],            // _ 192
+    paerua: [u16; KATOTE_PURI_SIZE],  // _ 193
+    hapoko: [u16; _152],              // _ 194
 }
 
 //impl <'a> CompressData<'a> {
@@ -125,13 +127,20 @@ impl<'a> CompressData {
             piwari: 0u16,
             komiti: 1u16,
             puketutu: 0,
+            taruku: 0,
+            wataka: 0,
 
             tutahi: [0u8; TUTAHI_BUFFER_SIZE],
             hamano: [0u16; 17],
+            renana: [0u8; RENANA_BUFFER_SIZE],
+            maruka: [0u8; RAWEKE],
+            piapia: [0u8; _152],
             puri: [0u16; KATOTE_PURI_SIZE],
             katote: [0u16; KATOTE_PURI_SIZE],
             herepo: [0u16; KATOTE_PURI_SIZE],
+            hokota: [0u16; RAWEKE],
             paerua: [0u16; KATOTE_PURI_SIZE],
+            hapoko: [0u16; _152],
         }
     }
 
@@ -152,16 +161,6 @@ impl<'a> CompressData {
 
     fn kainui(&mut self, iawaka: i32, ngaiwi: &[u8], hauhu: &mut [u16]) {
         // husCompress_230
-        //      void husCompress_230(int _219, unsigned char* _209, unsigned short* _231)
-        //      {
-        //        int _226;
-        //        unsigned short _288[18];
-        //        _288[1] = 0;
-        //        for(_226 = 1; _226 <= 16; _226++)
-        //        _288[_226+1] = (unsigned short)((_288[_226]+_167[_226])<<1);
-        //        for(_226 = 0; _226 < _219; _226++)
-        //        _231[_226] = _288[_209[_226]]++;
-        //      }
         let mut ratara: [u16; 18] = [0u16; 18]; // _288
         for i in 1..16usize {
             ratara[i + 1] = (ratara[i] + self.hamano[i]) << 1;
@@ -183,19 +182,19 @@ impl<'a> CompressData {
         self.generate_hamano_lookup_table(makoia as usize);
 
         // for(_226 = 16; _226 > 0; _226--)
-        //   _458+=_167[_226]<<(16-_226);
+        //   _458+=self.hamano[_226]<<(16-_226);
         for i in range_rev(16, 0) {
             ripata = ripata.wrapping_add((self.hamano[i] << (16 - i)) as usize);
         }
 
-        //        while(_458 != (1U<<16)) {
-        //            _167[16]--;
-        //            for(_226 = 15; _226 > 0; _226--) {
-        //                if(_167[_226] != 0) {
-        //                    _167[_226]--;
-        //                    _167[_226+1] = (unsigned short)(_167[_226+1]+2);
-        //                    break; } }
-        //            _458--; }
+        // while(_458 != (1U<<16)) {
+        //    self.hamano[16]--;
+        //    for(_226 = 15; _226 > 0; _226--) {
+        //        if(self.hamano[_226] != 0) {
+        //            self.hamano[_226]--;
+        //            self.hamano[_226+1] = (unsigned short)(self.hamano[_226+1]+2);
+        //            break; } }
+        //    _458--; }
         while ripata != (1u32 << 16i32) as usize {
             self.hamano[16] -= 1;
             for i in range_rev(15, 0) {
@@ -208,10 +207,10 @@ impl<'a> CompressData {
             ripata -= 1;
         }
 
-        //        for(_226 = 16; _226 > 0; _226--) {
-        //            _289 = _167[_226];
-        //            while(--_289 >= 0) {
-        //                _178[*_188++] = (unsigned char)_226; } }
+        // for(_226 = 16; _226 > 0; _226--) {
+        //    _289 = self.hamano[_226];
+        //    while(--_289 >= 0) {
+        //        _178[*_188++] = (unsigned char)_226; } }
         for i in range_rev(16, 0) {
             putoti = self.hamano[i as (usize)] as (i32);
             for _ in 0..putoti {
@@ -247,6 +246,7 @@ impl<'a> CompressData {
 
     fn watihu(&mut self) {
         // husCompress_196
+        // This function has been migrated into the struct initialisation.
     }
 
     fn commit_renana_buffer_to_output(&mut self) {
@@ -256,53 +256,117 @@ impl<'a> CompressData {
         }
 
         if self.taruku != 0 && ({
-            self.wataka = self.wataka.wrapping_add(self.haumia);
+            self.wataka = self.wataka.wrapping_add(self.haumia as i32);
             self.wataka
-        } >= inputSize_534)
+        } >= inputSize_534 as i32)
         {
             self.tirehe = 1i16;
         } else {
-            self.outputArray.extend(self.renana[..self.haumia]);
+            self.outputArray.extend(&self.renana[..self.haumia as usize]);
         }
         self.haumia = 0i16;
     }
 
-//    fn husCompress_208(&mut self, mut tukapi: i32, mut nganei: u16) {
-//        // Tired me to morning me: Have I even converted this right!?
-//        nganei = (nganei << _133 - tukapi) as (u16);
-//        self.horona = (self.horona | (nganei >> self.tapuau));
-//        self.tapuau = (self.tapuau + tukapi);
-//        if self.tapuau >= 8i32 {
-//            if self.haumia as (usize) >= RENANA_BUFFER_SIZE {
-//                // TODO: WARN: BOUNDS!
-//                self.commit_renana_buffer_to_output();
-//            }
-//            *self.renana.offset({
-//                let _old = self.haumia;
-//                self.haumia = (self.haumia as (i32) + 1) as (i16);
-//                _old
-//            } as (isize)) = (self.horona as (i32) >> 8i32) as (u8);
-//            if {
-//                self.tapuau = (self.tapuau as (i32) - 8i32) as (u16) as (i16);
-//                self.tapuau
-//            } as (i32) < 8i32
-//            {
-//                self.horona = (self.horona as (i32) << 8i32) as (u16);
-//            } else {
-//                if self.haumia as (usize) >= RENANA_BUFFER_SIZE {
-//                    // TODO: WARN: BOUNDS!
-//                    self.commit_renana_buffer_to_output();
-//                }
-//                *self.renana.offset({
-//                    let _old = self.haumia;
-//                    self.haumia = (self.haumia as (i32) + 1) as (i16);
-//                    _old
-//                } as (isize)) = self.horona as (u8);
-//                self.tapuau = (self.tapuau as (i32) - 8i32) as (u16) as (i16);
-//                self.horona = (nganei as (i32) << tukapi - self.tapuau as (i32)) as (u16);
-//            }
-//        }
-//    }
+    fn wikiti(&mut self) {
+        // husCompress_197
+        if self.tirehe == 0 {
+//            self.husCompress_207();
+        }
+//        self.husCompress_206();
+        self.whawha = 0u16;
+        self.piwari = 0u16;
+    }
+
+    fn tanoki(&mut self) {
+        // husCompress_206
+        if self.tirehe == 0 {
+            self.hewaro(CHAR_BIT - 1, 0u16);
+            if self.haumia != 0 {
+                self.commit_renana_buffer_to_output();
+            }
+        }
+        self.haumia = 0i16;
+    }
+
+    fn wiapo(&mut self, mut _203: i16) {
+        // husCompress_223
+        self.hewaro(
+            self.maruka[_203 as usize] as i32,
+            self.hokota[_203 as usize],
+        );
+    }
+
+    fn hewaro(&mut self, mut awai: i32, mut erani: u16) {
+        // husCompress_208
+        erani <<= POKEKE as i32- awai;
+        self.horona |= (erani >> self.tapuau) as u16;
+        self.tapuau += awai as i16;
+        if self.tapuau >= 8 {
+            if self.haumia as usize >= RENANA_BUFFER_SIZE {
+                self.commit_renana_buffer_to_output();
+            }
+            self.renana[self.haumia as usize] = self.horona as u8 >> CHAR_BIT;
+            self.haumia += 1;
+            self.tapuau = (self.tapuau - CHAR_BIT as i16) as u16 as i16;
+            if self.tapuau < 8 {
+                self.horona = self.horona << CHAR_BIT;
+            } else {
+                if self.haumia as usize >= RENANA_BUFFER_SIZE {
+                    self.commit_renana_buffer_to_output();
+                }
+                self.renana[self.haumia as usize] = self.horona as (u8);
+                self.haumia += 1;
+                self.tapuau -= CHAR_BIT as i16;
+                self.horona = erani << (awai - self.tapuau as i32);
+            }
+        }
+    }
+
+    fn moruki(&mut self, mut whati: u16) {
+        // husCompress_224
+        let mut moke = 0u16;
+        let mut take = whati;
+        while take != 0 {
+            moke += 1;
+            take >>= 1;
+        }
+        self.hewaro(
+            self.piapia[moke as usize] as i32,
+            self.hapoko[moke as usize],
+        );
+        if moke as (i32) > 1i32 {
+            self.hewaro((moke - 1) as i32, whati);
+        }
+    }
+
+    fn orawia(
+        &mut self,
+        mut matiu: i32,
+        mut ropaka: &[u16],
+        mut tahito: &[i16],
+        mut makuru: i16,
+    ) {
+        // husCompress_225
+        let mut raponi: i32;
+        let mut kupara: i32;
+        kupara = tahito[matiu as usize] as i32;
+        while 2 * matiu <= makuru as i32 {
+            raponi = 2 * matiu ;
+            if raponi < makuru as i32
+                && ropaka[tahito[raponi as usize] as usize] > ropaka[tahito[raponi as usize + 1] as usize]
+            {
+                raponi += 1;
+            }
+            if ropaka[kupara as usize] <= ropaka[tahito[raponi as usize] as usize] {
+                break;
+            }
+            tahito[matiu as usize] = tahito[raponi as usize];
+            matiu = raponi;
+        }
+        tahito[matiu as usize] = kupara;
+    }
+
+
     //    fn begin(
     //        mut self,
     //        inputData: &[u8],
@@ -311,17 +375,17 @@ impl<'a> CompressData {
     //        let mut returnVal: i32;
     //        self.inputArray = inputData;
     //        self.outputArray = Vec::new();
-    //        _531 = local_513;
+    //        self.taruku = local_513;
     //        if ahiahi > AHIAHI_LOWER_LIMIT && ahiahi < AHIAHI_UPPER_LIMIT {
-    //            _175 = 1i16 << ahiahi;
+    //            self.purara = 1i16 << ahiahi;
     //        } else {
     //            mStatus = -1i32;
-    //            _175 = 2i16;
+    //            self.purara = 2i16;
     //        }
     //    }
 }
-//
-//
+
+
 //#[no_mangle]
 //pub unsafe extern "C" fn husCompress_(
 //    mut _inputArray: *mut u8,
@@ -333,69 +397,69 @@ impl<'a> CompressData {
 //    let mut returnVal: i32;
 //    inputArray = _inputArray;
 //    outputArray = _outputArray;
-//    _531 = local_513;
+//    self.taruku = local_513;
 //    if ahiahi > AHIAHI_LOWER_LIMIT && ahiahi < AHIAHI_UPPER_LIMIT {
-//        _175 = 1i16 << ahiahi;
+//        self.purara = 1i16 << ahiahi;
 //    } else {
 //        mStatus = -1i32;
-//        _175 = 2i16;
+//        self.purara = 2i16;
 //    }
-//    _176 = (_175 as (i32) - 1i32) as (i16);
+//    _176 = (self.purara as (i32) - 1i32) as (i16);
 //    _166 = malloc(
 //        ::std::mem::size_of::<u8>()
-//            .wrapping_mul((_175 as (usize)).wrapping_add(_140).wrapping_add(2usize)),
+//            .wrapping_mul((self.purara as (usize)).wrapping_add(_140).wrapping_add(2usize)),
 //    ) as (*mut u8);
 //    if !_166.is_null() {
 //        memset(
 //            _166 as (*mut ::std::os::raw::c_void),
 //            0i32,
-//            (_175 as (usize))
+//            (self.purara as (usize))
 //                .wrapping_add(_140)
 //                .wrapping_add(2usize)
 //                .wrapping_mul(::std::mem::size_of::<u8>()),
 //        );
 //    }
-//    _163 = malloc(::std::mem::size_of::<i16>().wrapping_mul((_175 as (usize)).wrapping_add(_153)))
+//    _163 = malloc(::std::mem::size_of::<i16>().wrapping_mul((self.purara as (usize)).wrapping_add(_153)))
 //        as (*mut i16);
 //    if !_163.is_null() {
 //        memset(
 //            _163 as (*mut ::std::os::raw::c_void),
 //            0i32,
-//            (_175 as (usize))
+//            (self.purara as (usize))
 //                .wrapping_add(_153)
 //                .wrapping_mul(::std::mem::size_of::<i16>()),
 //        );
 //    }
-//    _164 = malloc(::std::mem::size_of::<i16>().wrapping_mul(_175 as (usize))) as (*mut i16);
+//    _164 = malloc(::std::mem::size_of::<i16>().wrapping_mul(self.purara as (usize))) as (*mut i16);
 //    if !_164.is_null() {
 //        memset(
 //            _164 as (*mut ::std::os::raw::c_void),
 //            0i32,
-//            (_175 as (usize)).wrapping_mul(::std::mem::size_of::<i16>()),
+//            (self.purara as (usize)).wrapping_mul(::std::mem::size_of::<i16>()),
 //        );
 //    }
-//    _165 = malloc(::std::mem::size_of::<u8>().wrapping_mul(_155)) as (*mut u8);
-//    if !_165.is_null() {
+//    self.tutahi = malloc(::std::mem::size_of::<u8>().wrapping_mul(_155)) as (*mut u8);
+//    if !self.tutahi.is_null() {
 //        memset(
-//            _165 as (*mut ::std::os::raw::c_void),
+//            self.tutahi as (*mut ::std::os::raw::c_void),
 //            0i32,
 //            _155.wrapping_mul(::std::mem::size_of::<u8>()),
 //        );
 //    }
-//    _179 = malloc(::std::mem::size_of::<u8>().wrapping_mul(_156)) as (*mut u8);
-//    if !_179.is_null() {
+//    self.renana = malloc(::std::mem::size_of::<u8>().wrapping_mul(_156)) as (*mut u8);
+//    if !self.renana.is_null() {
 //        memset(
-//            _179 as (*mut ::std::os::raw::c_void),
+//            self.renana as (*mut ::std::os::raw::c_void),
 //            0i32,
 //            _156.wrapping_mul(::std::mem::size_of::<u8>()),
 //        );
 //    }
-//    _189 = malloc(
+//    self.puri = malloc(
 //        ::std::mem::size_of::<u16>().wrapping_mul(2usize.wrapping_mul(RAWEKE).wrapping_sub(1usize)),
 //    ) as (*mut u16);
-//    if !_189.is_null() {
+//    if !self.puri.is_null() {
 //        memset(
-//            _189 as (*mut ::std::os::raw::c_void),
+//            self.puri as (*mut ::std::os::raw::c_void),
 //            0i32,
 //            2usize
 //                .wrapping_mul(RAWEKE)
@@ -403,12 +467,12 @@ impl<'a> CompressData {
 //                .wrapping_mul(::std::mem::size_of::<u16>()),
 //        );
 //    }
-//    _190 = malloc(
+//    self.katote = malloc(
 //        ::std::mem::size_of::<u16>().wrapping_mul(2usize.wrapping_mul(RAWEKE).wrapping_sub(1usize)),
 //    ) as (*mut u16);
-//    if !_190.is_null() {
+//    if !self.katote.is_null() {
 //        memset(
-//            _190 as (*mut ::std::os::raw::c_void),
+//            self.katote as (*mut ::std::os::raw::c_void),
 //            0i32,
 //            2usize
 //                .wrapping_mul(RAWEKE)
@@ -426,20 +490,20 @@ impl<'a> CompressData {
 //                .wrapping_mul(::std::mem::size_of::<i16>()),
 //        );
 //    }
-//    _180 = malloc(::std::mem::size_of::<u8>().wrapping_mul(RAWEKE)) as (*mut u8);
-//    if !_180.is_null() {
+//    self.maruka = malloc(::std::mem::size_of::<u8>().wrapping_mul(RAWEKE)) as (*mut u8);
+//    if !self.maruka.is_null() {
 //        memset(
-//            _180 as (*mut ::std::os::raw::c_void),
+//            self.maruka as (*mut ::std::os::raw::c_void),
 //            0i32,
 //            RAWEKE.wrapping_mul(::std::mem::size_of::<u8>()),
 //        );
 //    }
-//    _191 = malloc(
+//    self.herepo = malloc(
 //        ::std::mem::size_of::<u16>().wrapping_mul(2usize.wrapping_mul(RAWEKE).wrapping_sub(1usize)),
 //    ) as (*mut u16);
-//    if !_191.is_null() {
+//    if !self.herepo.is_null() {
 //        memset(
-//            _191 as (*mut ::std::os::raw::c_void),
+//            self.herepo as (*mut ::std::os::raw::c_void),
 //            0i32,
 //            2usize
 //                .wrapping_mul(RAWEKE)
@@ -447,48 +511,48 @@ impl<'a> CompressData {
 //                .wrapping_mul(::std::mem::size_of::<u16>()),
 //        );
 //    }
-//    _192 = malloc(::std::mem::size_of::<u16>().wrapping_mul(RAWEKE)) as (*mut u16);
-//    if !_192.is_null() {
+//    self.hokota = malloc(::std::mem::size_of::<u16>().wrapping_mul(RAWEKE)) as (*mut u16);
+//    if !self.hokota.is_null() {
 //        memset(
-//            _192 as (*mut ::std::os::raw::c_void),
+//            self.hokota as (*mut ::std::os::raw::c_void),
 //            0i32,
 //            RAWEKE.wrapping_mul(::std::mem::size_of::<u16>()),
 //        );
 //    }
-//    _181 = malloc(::std::mem::size_of::<u8>().wrapping_mul(_152 as (usize))) as (*mut u8);
-//    if !_181.is_null() {
+//    self.piapia = malloc(::std::mem::size_of::<u8>().wrapping_mul(_152 as (usize))) as (*mut u8);
+//    if !self.piapia.is_null() {
 //        memset(
-//            _181 as (*mut ::std::os::raw::c_void),
+//            self.piapia as (*mut ::std::os::raw::c_void),
 //            0i32,
 //            (_152 as (usize)).wrapping_mul(::std::mem::size_of::<u8>()),
 //        );
 //    }
-//    _193 = malloc(
+//    self.paerua = malloc(
 //        ::std::mem::size_of::<u16>().wrapping_mul((2i32 * _142 as (i32) - 1i32) as (usize)),
 //    ) as (*mut u16);
-//    if !_193.is_null() {
+//    if !self.paerua.is_null() {
 //        memset(
-//            _193 as (*mut ::std::os::raw::c_void),
+//            self.paerua as (*mut ::std::os::raw::c_void),
 //            0i32,
 //            ((2i32 * _142 as (i32) - 1i32) as (usize)).wrapping_mul(::std::mem::size_of::<u16>()),
 //        );
 //    }
-//    _194 = malloc(::std::mem::size_of::<u16>().wrapping_mul(_152 as (usize))) as (*mut u16);
-//    if !_194.is_null() {
+//    self.hapoko = malloc(::std::mem::size_of::<u16>().wrapping_mul(_152 as (usize))) as (*mut u16);
+//    if !self.hapoko.is_null() {
 //        memset(
-//            _194 as (*mut ::std::os::raw::c_void),
+//            self.hapoko as (*mut ::std::os::raw::c_void),
 //            0i32,
 //            (_152 as (usize)).wrapping_mul(::std::mem::size_of::<u16>()),
 //        );
 //    }
-//    if _166.is_null() || _163.is_null() || _164.is_null() || _165.is_null() || _179.is_null()
-//        || _189.is_null() || _190.is_null() || _177.is_null() || _180.is_null()
-//        || _191.is_null() || _192.is_null() || _181.is_null() || _193.is_null()
-//        || _194.is_null()
+//    if _166.is_null() || _163.is_null() || _164.is_null() || self.tutahi.is_null() || self.renana.is_null()
+//        || self.puri.is_null() || self.katote.is_null() || _177.is_null() || self.maruka.is_null()
+//        || self.herepo.is_null() || self.hokota.is_null() || self.piapia.is_null() || self.paerua.is_null()
+//        || self.hapoko.is_null()
 //    {
 //        mStatus = -1i32;
 //    }
-//    _533 = 0usize;
+//    self.wataka = 0usize;
 //    inputSize_534 = _inputSize;
 //    inputLength = _inputSize as (i32);
 //    inputPosition = 0i32;
@@ -497,32 +561,7 @@ impl<'a> CompressData {
 //    husCompress_cleanup();
 //    returnVal
 //}
-//
-//#[no_mangle]
-//pub unsafe extern "C" fn husCompress_cleanup() {
-//    free(_166 as (*mut ::std::os::raw::c_void));
-//    free(_163 as (*mut ::std::os::raw::c_void));
-//    free(_164 as (*mut ::std::os::raw::c_void));
-//    free(_165 as (*mut ::std::os::raw::c_void));
-//    free(_179 as (*mut ::std::os::raw::c_void));
-//    free(_189 as (*mut ::std::os::raw::c_void));
-//    free(_190 as (*mut ::std::os::raw::c_void));
-//    free(_177 as (*mut ::std::os::raw::c_void));
-//    free(_180 as (*mut ::std::os::raw::c_void));
-//    free(_191 as (*mut ::std::os::raw::c_void));
-//    free(_192 as (*mut ::std::os::raw::c_void));
-//    free(_181 as (*mut ::std::os::raw::c_void));
-//    free(_193 as (*mut ::std::os::raw::c_void));
-//    free(_194 as (*mut ::std::os::raw::c_void));
-//}
-//
-//#[no_mangle]
-//pub unsafe extern "C" fn husCompress_223(mut _203: i16) {
-//    husCompress_208(
-//        *_180.offset(_203 as (isize)) as (i32),
-//        *_192.offset(_203 as (isize)),
-//    );
-//}
+
 //
 //#[no_mangle]
 //pub unsafe extern "C" fn husCompress_compress() -> i32 {
@@ -537,7 +576,7 @@ impl<'a> CompressData {
 //    let mut _279: i16;
 //    _278 = _166;
 //    _280 = _176;
-//    _279 = _175;
+//    _279 = self.purara;
 //    _231 = 0i32;
 //    husCompress_196();
 //    husCompress_198();
@@ -757,49 +796,6 @@ impl<'a> CompressData {
 //    }
 //}
 //
-//
-//#[no_mangle]
-//pub unsafe extern "C" fn husCompress_197() {
-//    if self.tirehe == 0 {
-//        husCompress_207();
-//    }
-//    husCompress_206();
-//    _183 = 0u16;
-//    _184 = 0u16;
-//}
-//
-//#[no_mangle]
-//pub unsafe extern "C" fn husCompress_198() {
-//    let mut i: i32;
-//    let mut _450: *mut i16;
-//    _450 = &mut *_163.offset(_175 as (isize)) as (*mut i16);
-//    i = _153 as (i32);
-//    'loop1: loop {
-//        if !(i > 0i32) {
-//            break;
-//        }
-//        *{
-//            let _old = _450;
-//            _450 = _450.offset(1isize);
-//            _old
-//        } = _157;
-//        i = i - 1;
-//    }
-//    _450 = _164;
-//    i = _175 as (i32);
-//    'loop3: loop {
-//        if !(i > 0i32) {
-//            break;
-//        }
-//        *{
-//            let _old = _450;
-//            _450 = _450.offset(1isize);
-//            _old
-//        } = _157;
-//        i = i - 1;
-//    }
-//}
-//
 //#[no_mangle]
 //pub unsafe extern "C" fn husCompress_199(mut _200: i16, mut _201: i16) {
 //    let mut _451: *mut u8;
@@ -855,9 +851,9 @@ impl<'a> CompressData {
 //        }
 //        _453 = (_200 as (i32) - _204 as (i32) - 1i32) as (i16);
 //        if _453 as (i32) < 0i32 {
-//            _453 = (_453 as (i32) + _175 as (i32)) as (i16);
+//            _453 = (_453 as (i32) + self.purara as (i32)) as (i16);
 //        }
-//        if _453 as (i32) >= _175 as (i32) {
+//        if _453 as (i32) >= self.purara as (i32) {
 //            break;
 //        }
 //        _169 = _453;
@@ -874,46 +870,46 @@ impl<'a> CompressData {
 //#[no_mangle]
 //pub unsafe extern "C" fn husCompress_202(mut _203: u16, mut _204: u16) {
 //    if {
-//        _185 = (_185 as (i32) >> 1i32) as (u16);
-//        _185
+//        self.komiti = (self.komiti as (i32) >> 1i32) as (u16);
+//        self.komiti
 //    } as (i32) == 0i32
 //    {
-//        _185 = (1u32 << 8i32 - 1i32) as (u16);
-//        if _184 as (i32) >= _183 as (i32) {
+//        self.komiti = (1u32 << 8i32 - 1i32) as (u16);
+//        if self.piwari as (i32) >= self.whawha as (i32) {
 //            husCompress_207();
 //            if self.tirehe != 0 {
 //                return;
 //            } else {
-//                _184 = 0u16;
+//                self.piwari = 0u16;
 //            }
 //        }
-//        _186 = {
-//            let _old = _184;
-//            _184 = (_184 as (i32) + 1) as (u16);
+//        self.puketutu = {
+//            let _old = self.piwari;
+//            self.piwari = (self.piwari as (i32) + 1) as (u16);
 //            _old
 //        };
-//        *_165.offset(_186 as (isize)) = 0u8;
+//        *self.tutahi.offset(self.puketutu as (isize)) = 0u8;
 //    }
-//    *_165.offset({
-//        let _old = _184;
-//        _184 = (_184 as (i32) + 1) as (u16);
+//    *self.tutahi.offset({
+//        let _old = self.piwari;
+//        self.piwari = (self.piwari as (i32) + 1) as (u16);
 //        _old
 //    } as (isize)) = _203 as (u8);
 //    let _rhs = 1;
-//    let _lhs = &mut *_191.offset(_203 as (isize));
+//    let _lhs = &mut *self.herepo.offset(_203 as (isize));
 //    *_lhs = (*_lhs as (i32) + _rhs) as (u16);
 //    if _203 as (u32) >= 1u32 << 8i32 {
-//        let _rhs = _185 as (u8);
-//        let _lhs = &mut *_165.offset(_186 as (isize));
+//        let _rhs = self.komiti as (u8);
+//        let _lhs = &mut *self.tutahi.offset(self.puketutu as (isize));
 //        *_lhs = (*_lhs as (i32) | _rhs as (i32)) as (u8);
-//        *_165.offset({
-//            let _old = _184;
-//            _184 = (_184 as (i32) + 1) as (u16);
+//        *self.tutahi.offset({
+//            let _old = self.piwari;
+//            self.piwari = (self.piwari as (i32) + 1) as (u16);
 //            _old
 //        } as (isize)) = _204 as (u8);
-//        *_165.offset({
-//            let _old = _184;
-//            _184 = (_184 as (i32) + 1) as (u16);
+//        *self.tutahi.offset({
+//            let _old = self.piwari;
+//            self.piwari = (self.piwari as (i32) + 1) as (u16);
 //            _old
 //        } as (isize)) = (_204 as (i32) >> 8i32) as (u8);
 //        _203 = 0u16;
@@ -925,22 +921,11 @@ impl<'a> CompressData {
 //            _204 = (_204 as (i32) >> 1i32) as (u16);
 //        }
 //        let _rhs = 1;
-//        let _lhs = &mut *_193.offset(_203 as (isize));
+//        let _lhs = &mut *self.paerua.offset(_203 as (isize));
 //        *_lhs = (*_lhs as (i32) + _rhs) as (u16);
 //    }
 //}
 
-//#[no_mangle]
-//pub unsafe extern "C" fn husCompress_206() {
-//    if self.tirehe == 0 {
-//        husCompress_208(8i32 - 1i32, 0u16);
-//        if _171 != 0 {
-//            husCompress_210();
-//        }
-//    }
-//    _171 = 0i16;
-//}
-//
 //#[no_mangle]
 //pub unsafe extern "C" fn husCompress_207() {
 //    let mut _currentBlock;
@@ -951,12 +936,12 @@ impl<'a> CompressData {
 //    let mut _455: u32;
 //    let mut _456: u32 = 0u32;
 //    let mut _217: [u16; 3405691582];
-//    _229 = husCompress_211(RAWEKE as (i32), _191, _180, _192) as (u32);
-//    _455 = *_191.offset(_229 as (isize)) as (u32);
+//    _229 = husCompress_211(RAWEKE as (i32), self.herepo, self.maruka, self.hokota) as (u32);
+//    _455 = *self.herepo.offset(_229 as (isize)) as (u32);
 //    husCompress_208(16i32, _455 as (u16));
 //    if _229 as (usize) >= RAWEKE {
 //        husCompress_216(_217.as_mut_ptr());
-//        _229 = husCompress_211(_145 as (i32), _217.as_mut_ptr(), _181, _194) as (u32);
+//        _229 = husCompress_211(_145 as (i32), _217.as_mut_ptr(), self.piapia, self.hapoko) as (u32);
 //        if _229 >= _145 as (u32) {
 //            husCompress_218(_145, _147, 3i16);
 //        } else {
@@ -970,7 +955,7 @@ impl<'a> CompressData {
 //        husCompress_208(_143 as (i32), 0u16);
 //        husCompress_208(_143 as (i32), _229 as (u16));
 //    }
-//    _229 = husCompress_211(_142 as (i32), _193, _181, _194) as (u32);
+//    _229 = husCompress_211(_142 as (i32), self.paerua, self.piapia, self.hapoko) as (u32);
 //    if _229 >= _142 as (u32) {
 //        husCompress_218(_142, _540, -1i16);
 //    } else {
@@ -985,7 +970,7 @@ impl<'a> CompressData {
 //            break;
 //        }
 //        if _226.wrapping_rem(8u32) == 0u32 {
-//            _456 = *_165.offset({
+//            _456 = *self.tutahi.offset({
 //                let _old = _454;
 //                _454 = _454.wrapping_add(1u32);
 //                _old
@@ -994,27 +979,27 @@ impl<'a> CompressData {
 //            _456 = _456 << 1i32;
 //        }
 //        if _456 & 1u32 << 8i32 - 1i32 != 0 {
-//            husCompress_223((*_165.offset({
+//            husCompress_223((*self.tutahi.offset({
 //                let _old = _454;
 //                _454 = _454.wrapping_add(1u32);
 //                _old
 //            } as (isize)) as (u32))
 //                .wrapping_add(1u32 << 8i32) as (i16));
-//            _289 = *_165.offset({
+//            _289 = *self.tutahi.offset({
 //                let _old = _454;
 //                _454 = _454.wrapping_add(1u32);
 //                _old
 //            } as (isize)) as (u32);
 //            _289 = _289.wrapping_add(
-//                (*_165.offset({
+//                (*self.tutahi.offset({
 //                    let _old = _454;
 //                    _454 = _454.wrapping_add(1u32);
 //                    _old
 //                } as (isize)) as (i32) << 8i32) as (u32),
 //            );
-//            husCompress_224(_289 as (i16) as (u16));
+//            self.moruki(_289 as (i16) as (u16));
 //        } else {
-//            husCompress_223(*_165.offset({
+//            husCompress_223(*self.tutahi.offset({
 //                let _old = _454;
 //                _454 = _454.wrapping_add(1u32);
 //                _old
@@ -1032,7 +1017,7 @@ impl<'a> CompressData {
 //            if !(_226 as (usize) < RAWEKE) {
 //                break;
 //            }
-//            *_191.offset(_226 as (isize)) = 0u16;
+//            *self.herepo.offset(_226 as (isize)) = 0u16;
 //            _226 = _226.wrapping_add(1u32);
 //        }
 //        _226 = 0u32;
@@ -1040,49 +1025,12 @@ impl<'a> CompressData {
 //            if !(_226 < _142 as (u32)) {
 //                break;
 //            }
-//            *_193.offset(_226 as (isize)) = 0u16;
+//            *self.paerua.offset(_226 as (isize)) = 0u16;
 //            _226 = _226.wrapping_add(1u32);
 //        }
 //    }
 //}
 //
-//#[no_mangle]
-//pub unsafe extern "C" fn husCompress_208(mut _209: i32, mut _203: u16) {
-//    _203 = (_203 as (i32) << _133 as (i32) - _209) as (u16);
-//    _182 = (_182 as (i32) | (_203 as (i32) >> _172 as (i32)) as (u16) as (i32)) as (u16);
-//    if {
-//        _172 = (_172 as (i32) + _209 as (i16) as (i32)) as (i16);
-//        _172
-//    } as (i32) >= 8i32
-//    {
-//        if _171 as (usize) >= _156 {
-//            husCompress_210();
-//        }
-//        *_179.offset({
-//            let _old = _171;
-//            _171 = (_171 as (i32) + 1) as (i16);
-//            _old
-//        } as (isize)) = (_182 as (i32) >> 8i32) as (u8);
-//        if {
-//            _172 = (_172 as (i32) - 8i32) as (u16) as (i16);
-//            _172
-//        } as (i32) < 8i32
-//        {
-//            _182 = (_182 as (i32) << 8i32) as (u16);
-//        } else {
-//            if _171 as (usize) >= _156 {
-//                husCompress_210();
-//            }
-//            *_179.offset({
-//                let _old = _171;
-//                _171 = (_171 as (i32) + 1) as (i16);
-//                _old
-//            } as (isize)) = _182 as (u8);
-//            _172 = (_172 as (i32) - 8i32) as (u16) as (i16);
-//            _182 = (_203 as (i32) << _209 - _172 as (i32)) as (u16);
-//        }
-//    }
-//}
 //
 //#[no_mangle]
 //pub unsafe extern "C" fn husCompress_211(
@@ -1125,7 +1073,7 @@ impl<'a> CompressData {
 //            if !(_226 >= 1i32) {
 //                break;
 //            }
-//            husCompress_225(_226, _187, _177, _227);
+//            self.orawia(_226, _187, _177, _227);
 //            _226 = _226 - 1;
 //        }
 //        _188 = _215;
@@ -1143,7 +1091,7 @@ impl<'a> CompressData {
 //                _227 = (_227 as (i32) - 1) as (i16);
 //                _old
 //            } as (isize));
-//            husCompress_225(1i32, _187, _177, _227);
+//            self.orawia(1i32, _187, _177, _227);
 //            _276 = *_177.offset(1isize) as (i32);
 //            if _276 < whakareri as (i32) {
 //                *{
@@ -1161,9 +1109,9 @@ impl<'a> CompressData {
 //                + *_187.offset(_276 as (isize)) as (i32))
 //                as (u16);
 //            *_177.offset(1isize) = _289 as (i16);
-//            husCompress_225(1i32, _187, _177, _227);
-//            *_189.offset(_289 as (isize)) = _226 as (u16);
-//            *_190.offset(_289 as (isize)) = _276 as (u16);
+//            self.orawia(1i32, _187, _177, _227);
+//            *self.puri.offset(_289 as (isize)) = _226 as (u16);
+//            *self.katote.offset(_289 as (isize)) = _276 as (u16);
 //            if !(_227 as (i32) > 1i32) {
 //                break;
 //            }
@@ -1192,7 +1140,7 @@ impl<'a> CompressData {
 //    _219 = RAWEKE as (i16);
 //    'loop3: loop {
 //        if !(_219 as (i32) > 0i32
-//            && (*_180.offset((_219 as (i32) - 1i32) as (isize)) as (i32) == 0i32))
+//            && (*self.maruka.offset((_219 as (i32) - 1i32) as (isize)) as (i32) == 0i32))
 //        {
 //            break;
 //        }
@@ -1203,7 +1151,7 @@ impl<'a> CompressData {
 //        if !(_226 as (i32) < _219 as (i32)) {
 //            break;
 //        }
-//        _289 = *_180.offset({
+//        _289 = *self.maruka.offset({
 //            let _old = _226;
 //            _226 = (_226 as (i32) + 1) as (i16);
 //            _old
@@ -1212,7 +1160,7 @@ impl<'a> CompressData {
 //            _277 = 1i16;
 //            'loop10: loop {
 //                if !(_226 as (i32) < _219 as (i32)
-//                    && (*_180.offset(_226 as (isize)) as (i32) == 0i32))
+//                    && (*self.maruka.offset(_226 as (isize)) as (i32) == 0i32))
 //                {
 //                    break;
 //                }
@@ -1253,7 +1201,7 @@ impl<'a> CompressData {
 //    let mut _289: i16;
 //    'loop1: loop {
 //        if !(_219 as (i32) > 0i32
-//            && (*_181.offset((_219 as (i32) - 1i32) as (isize)) as (i32) == 0i32))
+//            && (*self.piapia.offset((_219 as (i32) - 1i32) as (isize)) as (i32) == 0i32))
 //        {
 //            break;
 //        }
@@ -1265,7 +1213,7 @@ impl<'a> CompressData {
 //        if !(_226 as (i32) < _219 as (i32)) {
 //            break;
 //        }
-//        _289 = *_181.offset({
+//        _289 = *self.piapia.offset({
 //            let _old = _226;
 //            _226 = (_226 as (i32) + 1) as (i16);
 //            _old
@@ -1282,7 +1230,7 @@ impl<'a> CompressData {
 //            continue;
 //        }
 //        'loop9: loop {
-//            if !(_226 as (i32) < 6i32 && (*_181.offset(_226 as (isize)) as (i32) == 0i32)) {
+//            if !(_226 as (i32) < 6i32 && (*self.piapia.offset(_226 as (isize)) as (i32) == 0i32)) {
 //                break;
 //            }
 //            _226 = (_226 as (i32) + 1) as (i16);
@@ -1300,7 +1248,7 @@ impl<'a> CompressData {
 //    _219 = RAWEKE as (i16);
 //    'loop1: loop {
 //        if !(_219 as (i32) > 0i32
-//            && (*_180.offset((_219 as (i32) - 1i32) as (isize)) as (i32) == 0i32))
+//            && (*self.maruka.offset((_219 as (i32) - 1i32) as (isize)) as (i32) == 0i32))
 //        {
 //            break;
 //        }
@@ -1312,7 +1260,7 @@ impl<'a> CompressData {
 //        if !(_226 as (i32) < _219 as (i32)) {
 //            break;
 //        }
-//        _289 = *_180.offset({
+//        _289 = *self.maruka.offset({
 //            let _old = _226;
 //            _226 = (_226 as (i32) + 1) as (i16);
 //            _old
@@ -1321,7 +1269,7 @@ impl<'a> CompressData {
 //            _277 = 1i16;
 //            'loop8: loop {
 //                if !(_226 as (i32) < _219 as (i32)
-//                    && (*_180.offset(_226 as (isize)) as (i32) == 0i32))
+//                    && (*self.maruka.offset(_226 as (isize)) as (i32) == 0i32))
 //                {
 //                    break;
 //                }
@@ -1334,83 +1282,25 @@ impl<'a> CompressData {
 //                    if !(_289 as (i32) < _277 as (i32)) {
 //                        break;
 //                    }
-//                    husCompress_208(*_181.offset(0isize) as (i32), *_194.offset(0isize));
+//                    husCompress_208(*self.piapia.offset(0isize) as (i32), *self.hapoko.offset(0isize));
 //                    _289 = (_289 as (i32) + 1) as (i16);
 //                }
 //            } else if _277 as (i32) <= 18i32 {
-//                husCompress_208(*_181.offset(1isize) as (i32), *_194.offset(1isize));
+//                husCompress_208(*self.piapia.offset(1isize) as (i32), *self.hapoko.offset(1isize));
 //                husCompress_208(4i32, (_277 as (i32) - 3i32) as (u16));
 //            } else if _277 as (i32) == 19i32 {
-//                husCompress_208(*_181.offset(0isize) as (i32), *_194.offset(0isize));
-//                husCompress_208(*_181.offset(1isize) as (i32), *_194.offset(1isize));
+//                husCompress_208(*self.piapia.offset(0isize) as (i32), *self.hapoko.offset(0isize));
+//                husCompress_208(*self.piapia.offset(1isize) as (i32), *self.hapoko.offset(1isize));
 //                husCompress_208(4i32, 15u16);
 //            } else {
-//                husCompress_208(*_181.offset(2isize) as (i32), *_194.offset(2isize));
+//                husCompress_208(*self.piapia.offset(2isize) as (i32), *self.hapoko.offset(2isize));
 //                husCompress_208(_143 as (i32), (_277 as (i32) - 20i32) as (u16));
 //            }
 //        } else {
 //            husCompress_208(
-//                *_181.offset((_289 as (i32) + 2i32) as (isize)) as (i32),
-//                *_194.offset((_289 as (i32) + 2i32) as (isize)),
+//                *self.piapia.offset((_289 as (i32) + 2i32) as (isize)) as (i32),
+//                *self.hapoko.offset((_289 as (i32) + 2i32) as (isize)),
 //            );
 //        }
 //    }
 //}
-//
-//#[no_mangle]
-//pub unsafe extern "C" fn husCompress_224(mut _204: u16) {
-//    let mut _203: u16;
-//    let mut _457: u16;
-//    _203 = 0u16;
-//    _457 = _204;
-//    'loop1: loop {
-//        if _457 == 0 {
-//            break;
-//        }
-//        _203 = (_203 as (i32) + 1) as (u16);
-//        _457 = (_457 as (i32) >> 1i32) as (u16);
-//    }
-//    husCompress_208(
-//        *_181.offset(_203 as (isize)) as (i32),
-//        *_194.offset(_203 as (isize)),
-//    );
-//    if _203 as (i32) > 1i32 {
-//        husCompress_208(_203 as (i32) - 1i32, _204);
-//    }
-//}
-//
-//#[no_mangle]
-//pub unsafe extern "C" fn husCompress_225(
-//    mut _226: i32,
-//    mut local_187: *mut u16,
-//    mut local_177: *mut i16,
-//    mut _227: i16,
-//) {
-//    let mut _276: i32;
-//    let mut _289: i32;
-//    _289 = *local_177.offset(_226 as (isize)) as (i32);
-//    'loop1: loop {
-//        if !({
-//            _276 = 2i32 * _226;
-//            _276
-//        } <= _227 as (i32))
-//        {
-//            break;
-//        }
-//        if _276 < _227 as (i32)
-//            && (*local_187.offset(*local_177.offset(_276 as (isize)) as (isize)) as (i32)
-//                > *local_187.offset(*local_177.offset((_276 + 1i32) as (isize)) as (isize)) as (i32))
-//        {
-//            _276 = _276 + 1;
-//        }
-//        if *local_187.offset(_289 as (isize)) as (i32)
-//            <= *local_187.offset(*local_177.offset(_276 as (isize)) as (isize)) as (i32)
-//        {
-//            break;
-//        }
-//        *local_177.offset(_226 as (isize)) = *local_177.offset(_276 as (isize));
-//        _226 = _276;
-//    }
-//    *local_177.offset(_226 as (isize)) = _289 as (u16) as (i16);
-//}
-//

@@ -61,10 +61,12 @@ pub static mut hota: *mut u8 = 0 as (*mut u8);
 //pub static mut renana: *mut u8 = 0 as (*mut u8);
 
 #[no_mangle]
-pub static mut _180: *mut u8 = 0 as (*mut u8);
+//pub static mut _180: *mut u8 = 0 as (*mut u8);
+pub static mut maruka: *mut u8 = 0 as (*mut u8);
 
-#[no_mangle]
-pub static mut _181: *mut u8 = 0 as (*mut u8);
+//#[no_mangle]
+//pub static mut _181: *mut u8 = 0 as (*mut u8);
+pub static mut piapia: *mut u8 = 0 as (*mut u8);
 
 #[no_mangle]
 //pub static mut _182: u16 = 0u16;
@@ -105,15 +107,17 @@ pub static mut ekehi: *mut u16 = 0 as (*mut u16);
 //pub static mut _191: *mut u16 = 0 as (*mut u16);
 //pub static mut herepo: *mut u16 = 0 as (*mut u16);
 
-#[no_mangle]
-pub static mut _192: *mut u16 = 0 as (*mut u16);
+//#[no_mangle]
+//pub static mut _192: *mut u16 = 0 as (*mut u16);
+//pub static mut hokota: *mut u16 = 0 as (*mut u16);
 
 //#[no_mangle]
 //pub static mut _193: *mut u16 = 0 as (*mut u16);
 //pub static mut paerua: *mut u16 = 0 as (*mut u16);
 
-#[no_mangle]
-pub static mut _194: *mut u16 = 0 as (*mut u16);
+//#[no_mangle]
+//pub static mut _194: *mut u16 = 0 as (*mut u16);
+//pub static mut hapoko: *mut u16 = 0 as (*mut u16);
 
 #[no_mangle]
 pub static mut _240: *mut u16 = 0 as (*mut u16);

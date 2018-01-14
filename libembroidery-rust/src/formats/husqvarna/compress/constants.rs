@@ -8,16 +8,18 @@ pub const TUTAHI_BUFFER_SIZE: usize = 8192usize;  // _155
 
 pub const RENANA_BUFFER_SIZE: usize = 512usize;  // _156
 
+pub const CHAR_BIT: i32 = 8;
+
 // Original constants:
 
 
-pub const _133: i16 = 16i16;
+pub const POKEKE: usize = 16;
 
-pub const _135: i16 = 3i16;
+pub const _135: i16 = 3;
 
-pub const _140: usize = 256usize;
+pub const _140: usize = 256;
 
-pub const byte_MAX: usize = 255usize;
+pub const byte_MAX: usize = 255;
 
 pub const _142: i16 = (AHIAHI_UPPER_LIMIT as (i32) + 1i32) as (i16);
 
@@ -25,7 +27,7 @@ pub const _143: i16 = 9i16;
 
 pub const _144: usize = _140 + 1usize;
 
-pub const _145: i16 = (_133 as (i32) + 3i32) as (i16);
+pub const _145: usize = POKEKE + 3;
 
 pub const _147: i16 = 5i16;
 
@@ -33,7 +35,7 @@ pub const _148: usize = 4096usize;
 
 pub const _149: usize = 256usize;
 
-pub const _152: i16 = _145;
+pub const _152: usize = _145;
 
 pub const _153: usize = 4096usize;
 
