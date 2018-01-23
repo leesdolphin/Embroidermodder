@@ -1,6 +1,6 @@
 
-QMAK?=qmake
-CARG?=cargo
+QMAKE?=qmake
+CARGO?=cargo
 
 all: build test
 
