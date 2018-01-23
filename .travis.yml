@@ -26,5 +26,6 @@ before_script:
     - uname -a
 
 script:
-    - make
+    - make CARGO=~/.cargo/bin/cargo build
+    - make CARGO=~/.cargo/bin/cargo test
 
