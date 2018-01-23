@@ -4,7 +4,7 @@ CARG?=cargo
 
 all: build test
 
-.PHONY: build-libembroidery build-libembroidery-convert build-libembroidery-test build-embroidermodder2
+.PHONY: prebuild build test
 
 prebuild:
 	cd libembroidery; $(QMAKE)
