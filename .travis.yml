@@ -16,7 +16,7 @@ env:
 before_install:
     - sudo apt-get update -qq
     - curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable
-    - rustup show
+    - /home/lee/.cargo/bin/rustup show
 
 install:
     - sudo apt-get install git ${QT_VERSION}-qmake ${QT_OPENGL_DEV_PACKAGE} valgrind
