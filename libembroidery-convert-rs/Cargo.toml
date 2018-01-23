@@ -1,0 +1,7 @@
+[package]
+name = "libembroidery-convert-rs"
+version = "0.1.0"
+authors = ["Lee Symes <lee@catalyst.net.nz>"]
+
+[dependencies]
+libembroidery = { path='../libembroidery-rs' }

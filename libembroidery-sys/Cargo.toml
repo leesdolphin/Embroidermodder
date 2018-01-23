@@ -1,0 +1,7 @@
+[package]
+name = "libembroidery-sys"
+version = "0.1.0"
+authors = ["Lee Symes <lee@catalyst.net.nz>"]
+
+[build-dependencies]
+bindgen = "0.32.1"

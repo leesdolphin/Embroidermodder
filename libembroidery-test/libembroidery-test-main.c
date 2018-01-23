@@ -4,10 +4,12 @@
 #include "emb-reader-writer.h"
 #include "emb-hash.h"
 
-#define RED_TERM_COLOR "\e[0;31m"
-#define GREEN_TERM_COLOR "\e[0;32m"
-#define YELLOW_TERM_COLOR "\e[1;33m"
+#define RED_TERM_COLOR "\033[0;31m"
+#define GREEN_TERM_COLOR "\033[0;32m"
+#define YELLOW_TERM_COLOR "\033[1;33m"
 #define RESET_TERM_COLOR "\033[0m"
+
+int fail_count = 0;
 
 void todo(void)
 {
@@ -22,6 +24,7 @@ void pass(void)
 int fail(int code)
 {
     printf(RED_TERM_COLOR "[FAIL] [CODE=%d]\n" RESET_TERM_COLOR, code);
+    fail_count += 1;
     return code;
 }
 
@@ -39,8 +42,8 @@ void testWrite(void)
 
 void testHash(void)
 {
-    printf("Hash Test...                      ");
     EmbHash* hash = 0;
+    printf("Hash Test...                      ");
     hash = embHash_create();
     if(!hash) fail(1);
     if(!embHash_empty(hash)) fail(2);
@@ -80,6 +83,9 @@ int main(int argc, const char* argv[])
     testWrite();
     testHash();
 
+    if (fail_count > 0) {
+        return 1;
+    }
     return 0;
 }
 
