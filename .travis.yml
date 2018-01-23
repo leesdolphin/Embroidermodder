@@ -2,39 +2,24 @@
 # so keep it simple and don't trust their lint tool to catch many problems.
 language:
     - c
-    - rust
 
 os:
     - linux
-    - osx
 
 compiler:
     - gcc
-    - clang
-
-rust:
-  - stable
-  - beta
 
 env:
     matrix:
-        - QT_VERSION=qt4 QT_OPENGL_DEV_PACKAGE=libqt4-opengl-dev
         - QT_VERSION=qt5 QT_OPENGL_DEV_PACKAGE=libqt5opengl5-dev
 
-matrix:
-  exclude:
-    - os: osx
-      env: QT_VERSION=qt4 QT_OPENGL_DEV_PACKAGE=libqt4-opengl-dev
-
 before_install:
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq; fi
+    - sudo apt-get update -qq
+    - curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable
+    - rustup show
 
 install:
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install ${QT_VERSION}; fi
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install git ${QT_VERSION}-qmake ${QT_OPENGL_DEV_PACKAGE} valgrind; fi
-    - git config --global user.email \<\>
-    - git config --global user.name "Embroidermodder-Travis"
+    - sudo apt-get install git ${QT_VERSION}-qmake ${QT_OPENGL_DEV_PACKAGE} valgrind
 
 before_script:
     - cat /etc/lsb-release
