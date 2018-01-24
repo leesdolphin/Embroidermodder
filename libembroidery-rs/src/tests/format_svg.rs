@@ -1,8 +1,11 @@
-use types::Pattern;
+use tests::utils::square_pattern;
 
 
 #[test]
 fn empty_pattern() {
-    let pattern = Pattern::create().unwrap();
+    let pattern = square_pattern(10.0);
+
+
+
     pattern.free().unwrap();
 }

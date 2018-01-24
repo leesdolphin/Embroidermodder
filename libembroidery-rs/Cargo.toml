@@ -6,3 +6,4 @@ authors = ["Lee Symes <lee@catalyst.net.nz>"]
 [dependencies]
 libembroidery-sys = { path="../libembroidery-sys" }
 error-chain = "0.11.0"
+bitflags = "1.0.1"

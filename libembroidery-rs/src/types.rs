@@ -18,7 +18,6 @@ wrap_embroidery_struct!(EmbLineObject => LineObject);
 wrap_embroidery_struct!(EmbLineObjectList => LineObjectList);
 wrap_embroidery_struct!(EmbPathObject => PathObject);
 wrap_embroidery_struct!(EmbPathObjectList => PathObjectList);
-wrap_embroidery_struct!(EmbPattern => Pattern);
 wrap_embroidery_struct!(EmbPoint => Point);
 wrap_embroidery_struct!(EmbPointList => PointList);
 wrap_embroidery_struct!(EmbPointObject => PointObject);

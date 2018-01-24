@@ -32,5 +32,10 @@ macro_rules! wrap_embroidery_struct {
                 $rust_type { c_struct: self }
             }
         }
+        impl<'a> Into<*mut $c_type> for &'a mut $rust_type {
+            fn into(self) -> *mut $c_type {
+                self.c_struct
+            }
+        }
     };
 }
