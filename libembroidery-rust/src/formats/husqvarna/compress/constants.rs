@@ -4,9 +4,9 @@ pub const AHIAHI_LOWER_LIMIT: i32 = 10; // _138
 
 pub const RAWEKE: usize = (BYTE_MAX + 1 + CONST_140 - (CONST_135 as usize) + 1 + 1); // _141
 
-pub const TUTAHI_BUFFER_SIZE: usize = 8192usize;  // _155
+pub const TUTAHI_BUFFER_SIZE: usize = 8192usize; // _155
 
-pub const RENANA_BUFFER_SIZE: usize = 512usize;  // _156
+pub const RENANA_BUFFER_SIZE: usize = 512usize; // _156
 
 pub const CHAR_BIT: i32 = 8;
 

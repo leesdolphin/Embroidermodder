@@ -1,7 +1,7 @@
 pub mod constants;
 //pub mod data;
 //pub mod compress;
- pub mod decompress;
+pub mod decompress;
 
 mod errors {
     // Create the Error, ErrorKind, ResultExt, and Result types

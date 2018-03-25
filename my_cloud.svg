@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!-- Embroidermodder 2 SVG Embroidery File -->
+<!-- http://embroidermodder.github.io -->
+<svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny">
+<line stroke-width="0.2" stroke="#000000" fill="none" x1="196.279577" y1="0.000002" x2="94.110749" y2="82.805548" />
+<line stroke-width="0.2" stroke="#000000" fill="none" x1="94.110749" y1="82.805548" x2="94.224749" y2="85.399643" />
+<line stroke-width="0.2" stroke="#000000" fill="none" x1="94.224749" y1="85.399643" x2="81.620639" y2="84.386988" />
+<line stroke-width="0.2" stroke="#000000" fill="none" x1="81.620639" y1="84.386988" x2="-0.000010" y2="167.192529" />
+<line stroke-width="0.2" stroke="#000000" fill="none" x1="-0.000010" y1="167.192529" x2="81.620639" y2="249.999998" />
+<line stroke-width="0.2" stroke="#000000" fill="none" x1="81.620639" y1="249.999998" x2="413.813294" y2="249.999998" />
+<line stroke-width="0.2" stroke="#000000" fill="none" x1="413.813294" y1="249.999998" x2="499.999982" y2="175.966349" />
+<line stroke-width="0.2" stroke="#000000" fill="none" x1="499.999982" y1="175.966349" x2="419.815344" y2="102.132550" />
+<line stroke-width="0.2" stroke="#000000" fill="none" x1="419.815344" y1="102.132550" x2="329.892635" y2="44.238029" />
+<line stroke-width="0.2" stroke="#000000" fill="none" x1="329.892635" y1="44.238029" x2="290.404326" y2="50.805901" />
+<line stroke-width="0.2" stroke="#000000" fill="none" x1="290.404326" y1="50.805901" x2="196.279577" y2="0.000002" />
+<line stroke-width="0.2" stroke="#000000" fill="none" x1="196.279577" y1="0.000002" x2="196.279577" y2="0.000002" />
+</svg>

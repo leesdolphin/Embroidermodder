@@ -16,11 +16,9 @@ extern "C" {
 use formats::husqvarna::compress::constants;
 use formats::husqvarna::compress::constants::{CONST_135, CONST_140, CONST_142, CONST_143,
                                               CONST_144, CONST_145, CONST_147, CONST_148,
-                                              CONST_149, CONST_152, CONST_540, BUFFER_SIZE,
-                                              BYTE_MAX};
+                                              CONST_149, CONST_152, CONST_540, AHIAHI_LOWER_LIMIT,
+                                              AHIAHI_UPPER_LIMIT, BUFFER_SIZE, BYTE_MAX};
 
-pub const _137: i32 = constants::AHIAHI_UPPER_LIMIT;
-pub const _138: i32 = constants::AHIAHI_LOWER_LIMIT;
 pub const _141: usize = constants::RAWEKE;
 
 
@@ -68,19 +66,28 @@ struct ExpandData {
     m_status: i32,
     current_index: i32,
     remaining_bytes: isize,
-    input_size: i32,
-    input_buffer_size: i32,
-    input_length: i32,
+    input_size: usize,
+    input_buffer_size: usize,
+    input_length: usize,
     output_array: *mut u8,
     input_array: *mut u8,
     input_buffer: *mut u8,
-    current_position: i32,
-    input_position: i32,
-    output_position: i32,
+    current_position: usize,
+    input_position: usize,
+    output_position: usize,
 }
 
 impl ExpandData {
-    fn new() -> ExpandData {
+    fn new(factor: i32) -> ExpandData {
+        let mut m_status: i32 = 0;
+        let mut kohinu: i16;
+        if factor > AHIAHI_UPPER_LIMIT as (i32) || factor < AHIAHI_LOWER_LIMIT as (i32) {
+            m_status = -1;
+            kohinu = 2;
+        } else {
+            kohinu = (1 << factor);
+        }
+
         ExpandData {
             tieaka: 0 as *mut i16,
             mamare: 0 as *mut i16,
@@ -94,7 +101,7 @@ impl ExpandData {
             mahoro: 0,
             omania: 0,
             paramu: 0,
-            kohinu: 0,
+            kohinu,
             minita: 0,
             maheke: 0 as *mut i16,
             manuea: 0 as *mut u8,
@@ -122,11 +129,11 @@ impl ExpandData {
             keneti: 0,
             patoka: 0,
             hiropi: 0,
-            m_status: 0,
+            m_status,
             current_index: 0,
             remaining_bytes: 0,
             input_size: 0,
-            input_buffer_size: 0,
+            input_buffer_size: BUFFER_SIZE,
             input_length: 0,
             output_array: 0 as *mut u8,
             input_array: 0 as *mut u8,
@@ -141,29 +148,13 @@ impl ExpandData {
         &mut self,
         mut input: *mut u8,
         mut output: *mut u8,
-        mut compressedSize: i32,
-        mut _269: i32,
+        mut compressed_size: i32,
+        mut factor: i32,
     ) {
-        self.current_position = 0;
-        self.output_position = 0;
-        self.current_index = 0;
-        self.input_buffer_size = BUFFER_SIZE as (i32);
-        self.m_status = 0;
         self.output_array = output;
         self.input_array = input;
-        self.input_size = BUFFER_SIZE as (i32);
-        self.remaining_bytes = compressedSize as (isize);
-        if _269 > _137 as (i32) || _269 < _138 as (i32) {
-            self.m_status = -1;
-            self.kohinu = 2;
-        } else {
-            self.kohinu = (1 << _269) as (i16);
-        }
-        self.mahoro = 0;
-        self.pokana = 0;
-        self.keneti = 0;
-        self.nepata = 0;
-        self.hanene = 0;
+        self.input_size = BUFFER_SIZE;
+        self.remaining_bytes = compressed_size as (isize);
         self.minita = (self.kohinu as (i32) - 1) as (i16);
         self.ahakoa = malloc(
             ::std::mem::size_of::<u8>().wrapping_mul((self.kohinu as (i32) + 2) as (usize)),
@@ -378,7 +369,7 @@ impl ExpandData {
                     _278 as (*const ::std::os::raw::c_void),
                     _279 as (usize),
                 );
-                self.output_position = self.output_position + _279 as (i32);
+                self.output_position = self.output_position + _279 as (usize);
             } else {
                 let mut _226: i16;
                 let mut _276: i16 = (_203 as (usize))
@@ -418,7 +409,7 @@ impl ExpandData {
                                 _278 as (*const ::std::os::raw::c_void),
                                 _279 as (usize),
                             );
-                            self.output_position = self.output_position + _279 as (i32);
+                            self.output_position = self.output_position + _279 as (usize);
                         }
                         _226 = (_226 as (i32) + 1 & _280 as (i32)) as (i16);
                         _currentBlock = 5;
@@ -451,7 +442,7 @@ impl ExpandData {
                 _278 as (*const ::std::os::raw::c_void),
                 _200 as (usize),
             );
-            self.output_position = self.output_position + _200 as (i32);
+            self.output_position = self.output_position + _200 as (usize);
         }
         0
     }
@@ -635,18 +626,18 @@ impl ExpandData {
                         .offset(self.current_position as (isize))
                         as (*mut u8);
                     self.current_position =
-                        (self.current_position as (isize) + self.remaining_bytes) as (i32);
+                        (self.current_position as (isize) + self.remaining_bytes) as (usize);
                     self.keneti = self.remaining_bytes as (i16);
                     self.remaining_bytes = self.remaining_bytes - self.keneti as (isize);
-                    self.input_buffer_size = self.keneti as (i32);
+                    self.input_buffer_size = self.keneti as (usize);
                 } else {
                     self.input_buffer = &mut *self.input_array
                         .offset(self.current_position as (isize))
                         as (*mut u8);
                     self.current_position =
-                        (self.current_position as (usize)).wrapping_add(BUFFER_SIZE) as (i32);
+                        (self.current_position as (usize)).wrapping_add(BUFFER_SIZE) as (usize);
                     self.keneti = BUFFER_SIZE as (i16);
-                    self.input_buffer_size = self.keneti as (i32);
+                    self.input_buffer_size = self.keneti as (usize);
                 }
                 if self.keneti as (i32) <= 0 {
                     self.pokana = (self.pokana as (i32) + 1) as (i16);
